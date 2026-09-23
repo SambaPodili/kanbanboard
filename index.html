@@ -68,6 +68,14 @@
     --av-bg: #eef2f7;
 
     --focus: #2f80ed;
+
+    /* WhatsApp support widget */
+    --wa-green:      #25d366;
+    --wa-green-dark: #0a7038;
+    --wa-ink:        #ffffff;
+    --wa-tint:       #e9f9ef;
+    --wa-shadow:     0 8px 24px rgba(18, 140, 74, .4), 0 2px 6px rgba(15, 39, 64, .2);
+    --fab-size:      60px;
     --backdrop: rgba(15, 39, 64, .55);
     --shadow-card: 0 1px 0 rgba(15, 39, 64, .06), 0 2px 6px rgba(15, 39, 64, .14);
     --shadow-sheet: 0 1px 2px rgba(15, 39, 64, .06);
@@ -473,6 +481,62 @@
   }
   .hotline a:hover { color: var(--lane-in-progress); text-decoration: underline; text-underline-offset: 3px; }
   .help-actions { display: flex; justify-content: flex-end; }
+
+  /* Overdue tasks: button in the overview + list dialog */
+  .btn-overdue { margin-top: var(--space-3); color: var(--signal); background: var(--error-bg); border-color: var(--error-rule); }
+  .btn-overdue:hover { background: var(--paper); border-color: var(--signal); }
+  .btn-overdue[disabled] { color: var(--ok); background: var(--wash); border-color: var(--rule); opacity: 1; }
+  .overdue-dialog { width: min(640px, calc(100vw - 32px)); }
+  .overdue-dialog .dialog-header { border-bottom: 1px solid var(--rule-2); }
+  .od-body { padding: var(--space-3) var(--space-5) var(--space-5); max-height: min(60vh, 560px); overflow-y: auto; }
+  .od-list { list-style: none; margin: 0; padding: 0; }
+  .od-item {
+    display: grid; grid-template-columns: 76px 1fr auto; gap: var(--space-4); align-items: center;
+    padding: var(--space-3) 0; border-bottom: 1px solid var(--rule-2);
+  }
+  .od-item:last-child { border-bottom: 0; }
+  .od-days {
+    text-align: center; padding: var(--space-2) var(--space-1);
+    background: var(--error-bg); border: 1px solid var(--error-rule); border-radius: var(--radius-card); color: var(--signal);
+  }
+  .od-days strong { display: block; font-family: var(--serif); font-size: 26px; line-height: 1; }
+  .od-days span { font-size: 11.5px; font-weight: 600; }
+  .od-title { margin: 0 0 2px; font-size: 14.5px; font-weight: 650; overflow-wrap: anywhere; }
+  .od-meta { margin: 0; display: flex; flex-wrap: wrap; gap: 2px var(--space-3); font-size: 12.5px; color: var(--ink-3); }
+  .od-meta .g-status, .od-meta .prio { font-size: 12.5px; }
+  .od-empty { margin: 0; padding: var(--space-6) 0; text-align: center; color: var(--ok); font-weight: 600; }
+
+  /* Floating WhatsApp button + suggested-questions dialog */
+  .wa-fab {
+    position: fixed; right: var(--space-5); bottom: var(--space-5); z-index: 90;
+    width: var(--fab-size); height: var(--fab-size); border-radius: 50%; border: 0;
+    display: grid; place-items: center; cursor: pointer;
+    background: var(--wa-green); color: var(--wa-ink); box-shadow: var(--wa-shadow);
+    transition: transform .15s;
+  }
+  .wa-fab:hover { transform: scale(1.06); background: var(--wa-green-dark); }
+  .wa-fab svg { width: 32px; height: 32px; }
+  .wa-dialog { width: min(460px, calc(100vw - 32px)); }
+  .wa-dialog .dialog-header { background: var(--wa-green-dark); color: var(--wa-ink); border-radius: var(--radius-sheet) var(--radius-sheet) 0 0; padding-bottom: var(--space-4); }
+  .wa-dialog .dialog-sub { color: var(--wa-ink); }
+  .wa-dialog .icon-btn { color: var(--wa-ink); }
+  .wa-dialog .icon-btn:hover { background: var(--lane-chip-light); color: var(--wa-ink); }
+  .wa-body { padding: var(--space-4) var(--space-5) var(--space-5); }
+  .wa-body h3 { margin: 0 0 var(--space-2); font-size: 13px; font-weight: 600; color: var(--ink-3); }
+  .wa-queries { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+  .wa-query {
+    display: flex; align-items: center; gap: var(--space-3);
+    padding: 10px var(--space-3); border: 1px solid var(--rule); border-radius: var(--radius-card);
+    color: var(--ink); text-decoration: none; font-weight: 500;
+  }
+  .wa-query:hover { border-color: var(--wa-green); background: var(--wa-tint); }
+  .wa-query svg { width: 18px; height: 18px; color: var(--wa-green-dark); flex: none; }
+  .wa-foot {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap;
+    margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--rule-2);
+    font-size: 12.5px; color: var(--ink-3);
+  }
+  .wa-foot a { color: var(--wa-green-dark); font-weight: 700; }
   .task-form { padding: var(--space-2) var(--space-5) 0; }
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2) var(--space-4); }
   .form-grid .full { grid-column: 1 / -1; }
@@ -492,7 +556,7 @@
      10. Toasts
      ========================================================== */
   .toasts {
-    position: fixed; right: var(--space-5); bottom: var(--space-5);
+    position: fixed; right: var(--space-5); bottom: calc(var(--space-5) + var(--fab-size) + var(--space-3));
     display: flex; flex-direction: column; gap: var(--space-2);
     z-index: 100; max-width: calc(100vw - 32px);
   }
@@ -530,7 +594,10 @@
   }
   @media (max-width: 520px) {
     .form-grid { grid-template-columns: 1fr; }
-    .toasts { right: var(--space-4); bottom: var(--space-4); }
+    .od-item { grid-template-columns: 64px 1fr; }
+    .od-item .btn { grid-column: 2; justify-self: start; }
+    .toasts { right: var(--space-4); bottom: calc(var(--space-4) + var(--fab-size) + var(--space-3)); }
+    .wa-fab { right: var(--space-4); bottom: var(--space-4); }
     .filters .field { flex: 1 1 100%; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -569,6 +636,7 @@
           <h1 class="page-title" id="page-title">Delivery board</h1>
           <p class="as-of" id="as-of"></p>
           <p class="board-status" id="board-status"></p>
+          <button type="button" id="open-overdue" class="btn btn-sm btn-overdue" aria-haspopup="dialog">View overdue tasks</button>
           <p class="demo-note">Internal demo / training tool. Data is held in memory only, and refreshing the page resets the board to the demo tasks.</p>
         </div>
         <dl class="summary" aria-label="Board summary">
@@ -705,6 +773,49 @@
   </div>
 </dialog>
 
+<!-- ============================================================
+     Overdue tasks dialog (list rendered from state when opened)
+     ============================================================ -->
+<dialog id="overdue-dialog" class="overdue-dialog" aria-labelledby="overdue-dialog-title" aria-describedby="overdue-dialog-desc">
+  <div class="dialog-header">
+    <div>
+      <h2 id="overdue-dialog-title">Overdue tasks</h2>
+      <p class="dialog-sub" id="overdue-dialog-desc">Open tasks past their due date, most overdue first. This list ignores the filters.</p>
+    </div>
+    <button type="button" class="icon-btn" id="close-overdue" aria-label="Close overdue tasks">
+      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="od-body" id="overdue-list"></div>
+</dialog>
+
+<!-- ============================================================
+     WhatsApp IT support: floating button + suggested questions
+     (questions are rendered from SUPPORT_QUERIES in JS)
+     ============================================================ -->
+<button type="button" id="wa-fab" class="wa-fab" aria-label="Chat with IT support on WhatsApp" aria-haspopup="dialog" title="Chat with IT support on WhatsApp">
+  <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 4.5A11.5 11.5 0 0 0 6.1 21.8L4.5 27.5l5.9-1.5A11.5 11.5 0 1 0 16 4.5Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M12.2 10.5c.4 0 .7.1.9.6l1 2.3c.1.3 0 .6-.1.8l-.8 1c.9 1.7 2.2 3 3.9 3.9l1-.8c.3-.2.5-.2.8-.1l2.3 1c.4.2.6.5.6.9 0 1.5-1.3 2.5-2.7 2.3-4.6-.6-8.2-4.2-8.8-8.8-.2-1.5.8-2.8 1.9-3.1Z" fill="currentColor"/></svg>
+</button>
+<dialog id="wa-dialog" class="wa-dialog" aria-labelledby="wa-dialog-title" aria-describedby="wa-dialog-desc">
+  <div class="dialog-header">
+    <div>
+      <h2 id="wa-dialog-title">IT support on WhatsApp</h2>
+      <p class="dialog-sub" id="wa-dialog-desc">Pick a question to start a chat. WhatsApp opens in a new tab with your message ready to edit and send.</p>
+    </div>
+    <button type="button" class="icon-btn" id="close-wa" aria-label="Close WhatsApp support">
+      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="wa-body">
+    <h3 id="wa-queries-title">Common questions</h3>
+    <ul class="wa-queries" id="wa-queries" aria-labelledby="wa-queries-title"></ul>
+    <div class="wa-foot">
+      <span>WhatsApp <span id="wa-number-label"></span></span>
+      <a id="wa-blank" target="_blank" rel="noopener noreferrer">Start a blank chat</a>
+    </div>
+  </div>
+</dialog>
+
 <!-- Toast region (announced politely to screen readers) -->
 <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
 
@@ -725,6 +836,20 @@ const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/YOUR_EMAIL@example.com";
 // Help popup: shown once per page load after this many ms of visible time on the page
 const HELP_PROMPT_DELAY_MS = 10000;
 const SUPPORT_HOTLINE = "12345678";
+
+// WhatsApp IT support: international number without "+" or spaces, and the
+// suggested questions shown when the floating button is clicked
+const WHATSAPP_NUMBER = "6512345678";
+const SUPPORT_QUERIES = [
+  "I can't log in or my account is locked",
+  "I need to reset my password",
+  "VPN or remote access isn't working",
+  "I need software installed on my laptop",
+  "My laptop or other hardware has a problem",
+  "I need access to a shared drive or application",
+  "I want to report a suspicious or phishing email",
+  "What's the status of my support ticket?",
+];
 
 const STATUSES = [
   { name: "Backlog",     hint: "Logged, not yet scheduled" },
@@ -1058,6 +1183,10 @@ function renderSummary() {
   document.getElementById("board-status").textContent =
     parts.length ? parts.join(", ") + "." : "Nothing is overdue, due this week or blocked.";
 
+  const overdueBtn = document.getElementById("open-overdue");
+  overdueBtn.textContent = overdue ? `⚠ View ${plural(overdue, "overdue task")}` : "✓ No overdue tasks";
+  overdueBtn.disabled = !overdue;
+
   renderTimeline();
 }
 
@@ -1360,14 +1489,69 @@ function wireViews() {
   // Picking a task on the timeline opens the board on that card
   document.getElementById("timeline-view").addEventListener("click", e => {
     const btn = e.target.closest("[data-show]");
+    if (btn) showOnBoard(btn.dataset.show);
+  });
+}
+
+// Switch to the board and flash + focus one card, clearing filters that hide it
+function showOnBoard(id) {
+  if (!applyFilters(state.tasks).some(t => t.id === id)) resetFilters();
+  const sel = `.card[data-id="${CSS.escape(id)}"]`;
+  ui.view = "board";
+  ui.highlight = id;
+  ui.focusAfterRender = `${sel} .move-select`;
+  renderBoard();
+  const card = document.querySelector(sel);
+  if (card) card.scrollIntoView({ block: "center" });
+}
+
+/* ============================================================
+   OVERDUE LIST: every open task past its due date, worst first
+   ============================================================ */
+function renderOverdueList() {
+  const tasks = state.tasks.filter(isOverdue)
+    .sort((a, b) => (a.dueDate < b.dueDate ? -1 : a.dueDate > b.dueDate ? 1 : 0));
+  const list = document.getElementById("overdue-list");
+  if (!tasks.length) {
+    list.innerHTML = `<p class="od-empty">✓ Nothing is overdue.</p>`;
+    return;
+  }
+  list.innerHTML = `<ul class="od-list">${tasks.map(t => {
+    const id = escapeHtml(t.id);
+    const days = -daysFromToday(t.dueDate);
+    const level = PRIORITIES.length - PRIORITIES.indexOf(t.priority);
+    return `
+      <li class="od-item prio-${slug(t.priority)}">
+        <div class="od-days"><strong>${escapeHtml(days)}</strong><span>${days === 1 ? "day" : "days"} late</span></div>
+        <div>
+          <p class="od-title">${escapeHtml(t.title)}</p>
+          <p class="od-meta">
+            <span>${id}</span>
+            <span class="g-status st-${slug(t.status)}">${escapeHtml(t.status)}</span>
+            <span class="prio" style="--prio: var(--p-${slug(t.priority)})"><span class="prio-meter lvl-${level}" aria-hidden="true"><i></i><i></i><i></i><i></i></span>${escapeHtml(t.priority)}</span>
+            <span>${escapeHtml(t.assignee)}</span>
+            <span>Due ${escapeHtml(formatDate(t.dueDate))}</span>
+          </p>
+        </div>
+        <button type="button" class="btn btn-sm" data-show="${id}">Show on board</button>
+      </li>`;
+  }).join("")}</ul>`;
+}
+
+function wireOverdue() {
+  const od = document.getElementById("overdue-dialog");
+  document.getElementById("open-overdue").addEventListener("click", () => {
+    renderOverdueList();
+    od.showModal();
+    const first = od.querySelector("[data-show]") || document.getElementById("close-overdue");
+    first.focus();
+  });
+  document.getElementById("close-overdue").addEventListener("click", () => od.close());
+  od.addEventListener("click", e => {
+    const btn = e.target.closest("[data-show]");
     if (!btn) return;
-    const sel = `.card[data-id="${CSS.escape(btn.dataset.show)}"]`;
-    ui.view = "board";
-    ui.highlight = btn.dataset.show;
-    ui.focusAfterRender = `${sel} .move-select`;
-    renderBoard();
-    const card = document.querySelector(sel);
-    if (card) card.scrollIntoView({ block: "center" });
+    od.close();
+    showOnBoard(btn.dataset.show);
   });
 }
 
@@ -1381,10 +1565,14 @@ function wireFilters() {
   assignee.addEventListener("input", () => { state.filters.assignee = assignee.value; renderBoard(); });
 
   document.getElementById("clear-filters").addEventListener("click", () => {
-    state.filters = { project: "", assignee: "", priority: "" };
-    project.value = ""; assignee.value = ""; priority.value = "";
+    resetFilters();
     renderBoard();
   });
+}
+
+function resetFilters() {
+  state.filters = { project: "", assignee: "", priority: "" };
+  ["filter-project", "filter-assignee", "filter-priority"].forEach(id => { document.getElementById(id).value = ""; });
 }
 
 /* ============================================================
@@ -1393,6 +1581,40 @@ function wireFilters() {
 /* ============================================================
    HELP POPUP: thank the visitor and show the support hotline
    ============================================================ */
+/* ============================================================
+   WHATSAPP SUPPORT: floating button opens suggested questions;
+   each opens wa.me in a new tab with the question pre-filled
+   ============================================================ */
+function whatsappLink(message) {
+  const base = "https://wa.me/" + WHATSAPP_NUMBER.replace(/[^0-9]/g, "");
+  return message ? base + "?text=" + encodeURIComponent(message) : base;
+}
+
+function wireWhatsApp() {
+  const waDialog = document.getElementById("wa-dialog");
+  const icon = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.8a6.2 6.2 0 0 0-5.4 9.3l-.8 3.1 3.2-.8A6.2 6.2 0 1 0 8 1.8Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+
+  document.getElementById("wa-queries").innerHTML = SUPPORT_QUERIES.map(q => {
+    const href = whatsappLink(`Hi IT Support, ${q}. (Sent from the UOB IT PMO board)`);
+    return `<li><a class="wa-query" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${icon}<span>${escapeHtml(q)}</span></a></li>`;
+  }).join("");
+
+  const digits = WHATSAPP_NUMBER.replace(/[^0-9]/g, "");
+  document.getElementById("wa-number-label").textContent =
+    digits.length === 10 && digits.startsWith("65") ? `+65 ${digits.slice(2, 6)} ${digits.slice(6)}` : "+" + digits;
+  document.getElementById("wa-blank").href = whatsappLink("");
+
+  document.getElementById("wa-fab").addEventListener("click", () => {
+    waDialog.showModal();
+    waDialog.querySelector(".wa-query").focus();
+  });
+  document.getElementById("close-wa").addEventListener("click", () => waDialog.close());
+  // Close once a chat link has been opened in the new tab
+  waDialog.addEventListener("click", e => {
+    if (e.target.closest("a[href]")) waDialog.close();
+  });
+}
+
 function wireHelpPrompt() {
   const help = document.getElementById("help-dialog");
   const link = document.getElementById("help-hotline");
@@ -1410,8 +1632,9 @@ function wireHelpPrompt() {
 
   function show() {
     if (shown) return;
-    if (dialog.open) {
-      dialog.addEventListener("close", show, { once: true });
+    const busy = document.querySelector("dialog[open]");
+    if (busy) {
+      busy.addEventListener("close", show, { once: true });
       return;
     }
     shown = true;
@@ -1466,6 +1689,8 @@ function init() {
 
   seedTasks();
   renderBoard();
+  wireOverdue();
+  wireWhatsApp();
   wireHelpPrompt();
 }
 

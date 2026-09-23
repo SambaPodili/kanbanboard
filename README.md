@@ -14,6 +14,10 @@ A single-file IT PMO Kanban board for internal demos and training. It shows how 
 
 ![UOB IT PMO Board in board view, showing the four colour Kanban lanes](docs/screenshot-board.png)
 
+**Help popup**: after 10 seconds on the page, visitors see the IT support hotline.
+
+![Help popup thanking the visitor and showing the IT support hotline 12345678](docs/screenshot-help.png)
+
 ## Features
 
 - **Four colour lanes** (Backlog, In Progress, Blocked, Done), like tape on a physical kanban wall, each with a short hint and a task count.
@@ -25,7 +29,9 @@ A single-file IT PMO Kanban board for internal demos and training. It shows how 
 - **Add Task dialog** with inline validation: title (max 80 chars), optional description (max 500), project, category, assignee, priority, due date and status. New tasks get IDs like `UOB-ITPM-0009`.
 - **Inline delete confirmation** ("Delete? Yes / No") instead of browser pop-ups.
 - **Overdue highlighting** for tasks whose due date has passed and that are not Done, plus a "Due in 5 days"-style label for tasks due within a week. Demo due dates are relative to today, so some cards are always overdue.
-- **Help popup**: after 10 seconds on the page (visible time only), a dialog thanks the visitor and shows the IT support hotline (`12345678`, a tap-to-call link on phones). It waits if the Add task dialog is open and shows once per page load. Change `HELP_PROMPT_DELAY_MS` and `SUPPORT_HOTLINE` at the top of the `<script>`.
+- **Overdue list**: a "⚠ View N overdue tasks" button in the overview (it reads "✓ No overdue tasks" and is disabled when there are none) opens a dialog listing every overdue task, most overdue first, with days late, ID, status, priority, assignee and due date. It ignores the filters. "Show on board" jumps to that card, clearing any filter that hides it.
+- **Help popup**: after 10 seconds on the page (visible time only), a dialog thanks the visitor and shows the IT support hotline (`12345678`, a tap-to-call link on phones). It waits while any other dialog is open and shows once per page load. Change `HELP_PROMPT_DELAY_MS` and `SUPPORT_HOTLINE` at the top of the `<script>`.
+- **WhatsApp IT support**: a floating button at the bottom right opens a list of common IT support questions. Picking one opens a WhatsApp chat with +65 1234 5678 in a new tab, with the question pre-filled; there is also a "Start a blank chat" link. Change `WHATSAPP_NUMBER` and `SUPPORT_QUERIES` at the top of the `<script>`.
 - **Email notification** of new tasks via a [FormSubmit](https://formsubmit.co/) AJAX POST (optional; see below). If it fails, the card is still added and a warning toast is shown.
 
 ### No persistence (on purpose)
@@ -62,7 +68,7 @@ While it still holds the `YOUR_EMAIL@example.com` placeholder, no request is sen
 - Icons are Unicode characters or inline SVG. Fonts are system fonts only: a system serif (Iowan Old Style, Charter or Georgia) for headings and numbers, and the system sans for everything else.
 - Responsive layout: four lanes on wide screens, two below 1180px, one on phones (the timeline scrolls sideways there). The dialog animation is turned off for users who prefer reduced motion.
 - Colours and spacing come from CSS custom properties on `:root`.
-- The only network call is the FormSubmit POST. The page never navigates away.
+- The only network call is the FormSubmit POST. The page never navigates away: WhatsApp links open `wa.me` in a new tab (`rel="noopener noreferrer"`) only when the user clicks one.
 
 ## Accessibility
 
