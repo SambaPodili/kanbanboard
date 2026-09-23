@@ -4,6 +4,10 @@ A single-file IT PMO Kanban board for internal demos and training. It shows how 
 
 **Live demo:** https://sambapodili.github.io/kanbanboard/
 
+## Screenshot
+
+![UOB IT PMO Board showing the four Kanban columns](docs/screenshot.png)
+
 ## Features
 
 - **Four columns** (Backlog, In Progress, Blocked, Done), each with a short hint and a task count.

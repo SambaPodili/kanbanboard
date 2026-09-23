@@ -1,7 +1,7 @@
 ---
-description: Security-scan the app, update the README, push to GitHub, set the repo About section and deploy GitHub Pages via Actions
+description: Security-scan the app, screenshot it for the README, push to GitHub, set the repo About section and deploy GitHub Pages via Actions
 argument-hint: <owner/repo | https://github.com/owner/repo> [branch=main] [public|private] [--yes]
-allowed-tools: Read, Grep, Glob, Edit, Write, AskUserQuestion, Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git remote -v), Bash(git branch:*), Bash(git ls-files:*), Bash(git rev-parse:*), Bash(git fetch:*), Bash(git add:*), Bash(git commit:*), Bash(git push -u origin:*), Bash(gh auth status:*), Bash(gh repo view:*), Bash(gh repo create:*), Bash(gh repo edit:*), Bash(gh run list:*), Bash(gh run view:*), Bash(gh run watch:*), Bash(gh workflow run:*), Bash(gh api repos/*/pages:*), Bash(gh api -X POST repos/*/pages:*), Bash(gh api -X PUT repos/*/pages:*), Bash(gitleaks:*), Bash(node --check:*), Bash(curl -sI:*), Bash(curl -s -o /dev/null:*)
+allowed-tools: Read, Grep, Glob, Edit, Write, AskUserQuestion, Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git remote -v), Bash(git branch:*), Bash(git ls-files:*), Bash(git rev-parse:*), Bash(git fetch:*), Bash(git add:*), Bash(git commit:*), Bash(git push -u origin:*), Bash(gh auth status:*), Bash(gh repo view:*), Bash(gh repo create:*), Bash(gh repo edit:*), Bash(gh run list:*), Bash(gh run view:*), Bash(gh run watch:*), Bash(gh workflow run:*), Bash(gh api repos/*/pages:*), Bash(gh api -X POST repos/*/pages:*), Bash(gh api -X PUT repos/*/pages:*), Bash(gitleaks:*), Bash(node --check:*), Bash(curl -sI:*), Bash(curl -s -o /dev/null:*), Bash(python3 -m http.server:*), Bash(mkdir -p docs:*), Bash(cp:*), Bash(file:*), mcp__playwright__browser_navigate, mcp__playwright__browser_resize, mcp__playwright__browser_wait_for, mcp__playwright__browser_take_screenshot, mcp__playwright__browser_close
 ---
 
 # Publish this project to GitHub (with security scan and GitHub Pages)
@@ -28,10 +28,10 @@ Work through the phases below **in order**. Do not push anything until Phase 2 (
 ## Phase 1 — Decide what gets published
 
 1. List what would be committed: `git ls-files` plus untracked, non-ignored files (`git status --porcelain`).
-2. Create or update `.gitignore` so it covers at least: `.DS_Store`, `Thumbs.db`, `*.log`, `.env*`, `node_modules/`, `*.pem`, `*.key`, `.claude/settings.local.json`, and editor folders (`.vscode/`, `.idea/`).
+2. Create or update `.gitignore` so it covers at least: `.DS_Store`, `Thumbs.db`, `*.log`, `.env*`, `node_modules/`, `*.pem`, `*.key`, `.claude/settings.local.json`, `.playwright-mcp/`, and editor folders (`.vscode/`, `.idea/`).
 3. Flag files that should not go to a public repo and ask the user about each group:
    - course material, PDFs, Office files, or anything under `mat/` (possible copyright or confidentiality);
-   - screenshots or `out.png`-style test output;
+   - screenshots or `out.png`-style test output (except `docs/screenshot.png`, which Phase 3a produces on purpose for the README);
    - large files (over 5 MB) and binaries.
 
 ## Phase 2 — Security scan (blocking gate)
@@ -69,7 +69,25 @@ Create `README.md` if it is missing; otherwise edit it in place and keep any con
 - Deployment: GitHub Pages via the workflow in `.github/workflows/pages.yml`.
 - Disclaimer: training/demo project, not affiliated with or an official system of UOB.
 
-Keep it factual. Do not invent features, screenshots or badges for things that don't exist.
+Keep it factual. Do not invent features or badges for things that don't exist; the only screenshot is the real one from Phase 3a.
+
+## Phase 3a — README screenshot (Playwright MCP)
+
+Capture the running board and embed it in the README.
+
+1. Serve the app so the page has a real origin: start `python3 -m http.server 8765` in the project root in the background (Playwright MCP may refuse `file://` URLs).
+2. With the Playwright MCP tools (server `playwright` in `.mcp.json`):
+   - `browser_resize` to 1440×900;
+   - `browser_navigate` to `http://localhost:8765/index.html`;
+   - `browser_wait_for` the text `Backlog` (the board has rendered);
+   - `browser_take_screenshot` with `filename: "screenshot.png"` (viewport only, not full page, PNG);
+   - `browser_close`.
+   The tool reports where it saved the file (usually `.playwright-mcp/`). Copy it to `docs/screenshot.png` (`mkdir -p docs` first).
+3. Stop the HTTP server.
+4. **Fallback:** if the Playwright MCP tools are not available in this session (the server is not approved or not loaded), tell the user, then use headless Chrome as described in CLAUDE.md with `--window-size=1440,900 --screenshot=docs/screenshot.png`. To use Playwright next time, the user approves the `playwright` server in `/mcp` and restarts Claude Code.
+5. Look at the image (Read it) to make sure the board rendered: four columns, cards, no error state or empty page. Check that it shows only the fictional seed data and no personal info, local paths or real email addresses.
+6. Add or update a **Screenshot** section in the README, directly under the Live demo link: `![UOB IT PMO Board showing the four Kanban columns](docs/screenshot.png)`. Replace the image in place on later runs; don't add a second one.
+7. The image is a repo asset for the README only. `index.html` must not reference it (the CLAUDE.md "no image files" rule applies to the app), and the Pages workflow does not publish `docs/`.
 
 ## Phase 4 — GitHub Pages workflow
 
@@ -83,7 +101,7 @@ Ensure `.github/workflows/pages.yml` exists and is correct. If it already exists
 ## Phase 5 — Local verification
 
 - Syntax-check the script again (`node --check`) after any edits.
-- If Chrome is available, take a headless screenshot as described in CLAUDE.md into the scratchpad directory, and look at it to make sure the board renders.
+- If the script changed after Phase 3a, retake the README screenshot (Phase 3a) so it matches the code being pushed.
 - Show `git status` and `git diff --stat`.
 
 ## Phase 6 — Confirmation (skip only with `--yes`)
