@@ -455,6 +455,24 @@
   }
   .dialog-header h2 { margin: 0; font-family: var(--serif); font-size: 26px; font-weight: 600; }
   .dialog-sub { margin: var(--space-1) 0 0; font-size: 13px; color: var(--ink-3); }
+
+  /* Help popup shown after a short visit */
+  .help-dialog { width: min(420px, calc(100vw - 32px)); }
+  .help-body { padding: 0 var(--space-5) var(--space-5); }
+  .help-body p { margin: 0 0 var(--space-3); color: var(--ink-2); }
+  .hotline {
+    display: flex; align-items: center; gap: var(--space-3);
+    margin: var(--space-4) 0; padding: var(--space-3) var(--space-4);
+    background: var(--wash); border: 1px solid var(--rule); border-radius: var(--radius-card);
+  }
+  .hotline svg { width: 22px; height: 22px; color: var(--lane-in-progress); flex: none; }
+  .hotline-label { display: block; font-size: 12.5px; color: var(--ink-3); }
+  .hotline a {
+    font-family: var(--serif); font-size: 24px; font-weight: 600; color: var(--ink);
+    text-decoration: none; font-variant-numeric: lining-nums tabular-nums;
+  }
+  .hotline a:hover { color: var(--lane-in-progress); text-decoration: underline; text-underline-offset: 3px; }
+  .help-actions { display: flex; justify-content: flex-end; }
   .task-form { padding: var(--space-2) var(--space-5) 0; }
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2) var(--space-4); }
   .form-grid .full { grid-column: 1 / -1; }
@@ -662,6 +680,31 @@
   </form>
 </dialog>
 
+<!-- ============================================================
+     Help popup: shown once per page load after HELP_PROMPT_DELAY_MS
+     ============================================================ -->
+<dialog id="help-dialog" class="help-dialog" aria-labelledby="help-dialog-title" aria-describedby="help-dialog-desc">
+  <div class="dialog-header">
+    <h2 id="help-dialog-title">Thanks for visiting</h2>
+    <button type="button" class="icon-btn" id="close-help" aria-label="Close help message">
+      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="help-body">
+    <p id="help-dialog-desc">Thank you for visiting the UOB IT PMO board. If you need further assistance, call the IT support hotline.</p>
+    <div class="hotline">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-2 1.3a11 11 0 0 0 6.6 6.6l1.3-2 4 1.4v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      <div>
+        <span class="hotline-label">IT support hotline</span>
+        <a id="help-hotline" href="tel:"></a>
+      </div>
+    </div>
+    <div class="help-actions">
+      <button type="button" id="dismiss-help" class="btn btn-primary">Got it</button>
+    </div>
+  </div>
+</dialog>
+
 <!-- Toast region (announced politely to screen readers) -->
 <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
 
@@ -678,6 +721,10 @@
    CONFIG: change the email address here (one place only)
    ============================================================ */
 const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/YOUR_EMAIL@example.com";
+
+// Help popup: shown once per page load after this many ms of visible time on the page
+const HELP_PROMPT_DELAY_MS = 10000;
+const SUPPORT_HOTLINE = "12345678";
 
 const STATUSES = [
   { name: "Backlog",     hint: "Logged, not yet scheduled" },
@@ -1343,6 +1390,52 @@ function wireFilters() {
 /* ============================================================
    INIT
    ============================================================ */
+/* ============================================================
+   HELP POPUP: thank the visitor and show the support hotline
+   ============================================================ */
+function wireHelpPrompt() {
+  const help = document.getElementById("help-dialog");
+  const link = document.getElementById("help-hotline");
+  link.textContent = SUPPORT_HOTLINE;
+  link.href = "tel:" + SUPPORT_HOTLINE.replace(/[^0-9+]/g, "");
+  document.getElementById("close-help").addEventListener("click", () => help.close());
+  document.getElementById("dismiss-help").addEventListener("click", () => help.close());
+
+  // Count only time the page is actually visible, and never interrupt the
+  // Add task dialog: if it is open, wait until it closes.
+  let remaining = HELP_PROMPT_DELAY_MS;
+  let startedAt = 0;
+  let timer = null;
+  let shown = false;
+
+  function show() {
+    if (shown) return;
+    if (dialog.open) {
+      dialog.addEventListener("close", show, { once: true });
+      return;
+    }
+    shown = true;
+    document.removeEventListener("visibilitychange", onVisibility);
+    help.showModal();
+    document.getElementById("dismiss-help").focus();
+  }
+  function start() {
+    startedAt = Date.now();
+    timer = setTimeout(show, remaining);
+  }
+  function onVisibility() {
+    if (shown) return;
+    if (document.hidden) {
+      clearTimeout(timer);
+      remaining = Math.max(0, remaining - (Date.now() - startedAt));
+    } else {
+      start();
+    }
+  }
+  document.addEventListener("visibilitychange", onVisibility);
+  if (!document.hidden) start();
+}
+
 function init() {
   // Populate selects from config constants
   fillSelect(document.getElementById("filter-project"), PROJECTS);
@@ -1373,6 +1466,7 @@ function init() {
 
   seedTasks();
   renderBoard();
+  wireHelpPrompt();
 }
 
 init();
