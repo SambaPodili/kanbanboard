@@ -10,13 +10,14 @@ A single-file IT PMO Kanban board for internal demos and training. It shows how 
 
 ## Features
 
-- **Four columns** (Backlog, In Progress, Blocked, Done), each with a short hint and a task count.
-- **Summary strip** in the header with totals per column and an overdue count.
+- **Four columns** (Backlog, In Progress, Blocked, Done), each colour-coded, with a short hint and a task count.
+- **Portfolio header** with summary tiles (total, per column, overdue), a status distribution bar showing each column's share of all tasks, and an "as of" date.
+- **Task cards** showing priority (text and colour), project, category, the assignee's initials, and a due-date label ("Overdue · 2d", "Due in 5d", or the date).
 - **Filters** by project, priority, and assignee (substring match), plus a "Clear filters" button. While filters are active, column counts show "shown / total".
 - **Drag and drop** cards between columns, with a keyboard-friendly "Move ▸" dropdown on every card as a fallback.
 - **Add Task dialog** with inline validation: title (max 80 chars), optional description (max 500), project, category, assignee, priority, due date and status. New tasks get IDs like `UOB-ITPM-0009`.
 - **Inline delete confirmation** ("Delete? Yes / No") instead of browser pop-ups.
-- **Overdue highlighting** for tasks whose due date has passed and that are not Done. Demo due dates are relative to today, so some cards are always overdue.
+- **Overdue highlighting** for tasks whose due date has passed and that are not Done, plus a "Due in Nd" label for tasks due within a week. Demo due dates are relative to today, so some cards are always overdue.
 - **Email notification** of new tasks via a [FormSubmit](https://formsubmit.co/) AJAX POST (optional; see below). If it fails, the card is still added and a warning toast is shown.
 
 ### No persistence (on purpose)
@@ -50,7 +51,8 @@ While it still holds the `YOUR_EMAIL@example.com` placeholder, no request is sen
 ## Tech and constraints
 
 - Vanilla HTML/CSS/JS in a single file (`index.html`). No frameworks, CDNs, web fonts, image files or build step.
-- Icons are Unicode characters, and fonts use the system font stack.
+- Icons are Unicode characters or inline SVG, and fonts use the system font stack.
+- Responsive layout: four columns on wide screens, two below 1200px, one on phones. Animations are turned off for users who prefer reduced motion.
 - Colours and spacing come from CSS custom properties on `:root`.
 - The only network call is the FormSubmit POST. The page never navigates away.
 

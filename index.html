@@ -9,30 +9,57 @@
      1. Design tokens (palette, spacing, type)
      ========================================================== */
   :root {
-    --blue-900: #0b2a4a;
-    --blue-800: #0f3a66;
-    --blue-700: #1554a0;
-    --blue-500: #2f74c8;
-    --blue-100: #e6eef8;
-    --blue-50:  #f3f7fc;
+    /* Brand: deep corporate navy to signal blue */
+    --navy-950: #061528;
+    --navy-900: #0a1f3a;
+    --navy-800: #102c52;
+    --blue-700: #1848a8;
+    --blue-600: #1f5fd1;
+    --blue-500: #3b7be8;
+    --blue-200: #c9daf8;
+    --blue-100: #e3ecfb;
+    --blue-50:  #f2f6fd;
 
-    --ink:      #1b2430;
-    --ink-2:    #4a5566;
-    --ink-3:    #6b7686;
-    --line:     #d5dce6;
+    /* Neutrals */
+    --ink:      #0f1a2a;
+    --ink-2:    #3d4a5c;
+    --ink-3:    #647085;
+    --ink-4:    #8a95a8;
+    --line:     #dfe4ec;
+    --line-2:   #eaeef4;
     --surface:  #ffffff;
-    --page:     #eef2f7;
+    --surface-2:#f7f9fc;
+    --page:     #eff2f7;
+    --on-dark:  #ffffff;
+    --on-dark-2: rgba(255, 255, 255, .72);
+    --on-dark-line: rgba(255, 255, 255, .14);
 
-    --p-critical: #c62828;
-    --p-high:     #d98a00;
-    --p-medium:   #1f6fd1;
-    --p-low:      #7a8494;
+    /* Priority (always paired with a text label) */
+    --p-critical:    #c4262e;
+    --p-critical-bg: #fdecec;
+    --p-high:        #b8620a;
+    --p-high-bg:     #fdf1e3;
+    --p-medium:      #1f5fd1;
+    --p-medium-bg:   #e8f0fd;
+    --p-low:         #5f6b7e;
+    --p-low-bg:      #eef1f5;
 
-    --ok:    #1e7d4f;
-    --warn:  #9a5b00;
-    --error: #b3261e;
+    /* Workflow status */
+    --s-backlog:     #6b7a90;
+    --s-in-progress: #1f5fd1;
+    --s-blocked:     #d0661a;
+    --s-done:        #16895a;
 
-    --focus: #ffb000;
+    --ok:    #16895a;
+    --warn:  #b8620a;
+    --error: #c4262e;
+
+    /* Avatar tints */
+    --av-0: #1f5fd1; --av-1: #0f8a8a; --av-2: #7247c9;
+    --av-3: #b8620a; --av-4: #16895a; --av-5: #c0356b;
+
+    --focus: #3b7be8;
+    --focus-ring: 0 0 0 3px rgba(59, 123, 232, .35);
 
     --space-1: 4px;
     --space-2: 8px;
@@ -40,13 +67,43 @@
     --space-4: 16px;
     --space-5: 24px;
     --space-6: 32px;
+    --space-7: 48px;
 
+    --radius-lg: 12px;
     --radius:    8px;
-    --radius-sm: 4px;
-    --shadow:    0 1px 2px rgba(11, 42, 74, .08), 0 2px 6px rgba(11, 42, 74, .06);
-    --shadow-lg: 0 12px 32px rgba(11, 42, 74, .25);
+    --radius-sm: 6px;
+    --radius-xs: 4px;
+    --shadow-xs: 0 1px 1px rgba(10, 31, 58, .04);
+    --shadow:    0 1px 2px rgba(10, 31, 58, .06), 0 1px 3px rgba(10, 31, 58, .05);
+    --shadow-md: 0 4px 12px rgba(10, 31, 58, .08), 0 1px 3px rgba(10, 31, 58, .06);
+    --shadow-lg: 0 24px 48px rgba(6, 21, 40, .28), 0 4px 12px rgba(6, 21, 40, .12);
 
     --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    --container: 1600px;
+
+    /* Derived tints (dark header, borders, overlays) */
+    --danger-hover:   #a31f26;
+    --danger-line:    #f6c6c8;
+    --warn-line:      #f5d9b5;
+    --danger-ring:    rgba(196, 38, 46, .2);
+    --drop-ring:      rgba(59, 123, 232, .18);
+    --env-fg:         #ffd58a;
+    --env-bg:         rgba(255, 190, 80, .12);
+    --env-line:       rgba(255, 190, 80, .3);
+    --on-dark-fill-1: rgba(255, 255, 255, .04);
+    --on-dark-fill-2: rgba(255, 255, 255, .05);
+    --on-dark-fill-3: rgba(255, 255, 255, .08);
+    --on-dark-hi:     rgba(255, 255, 255, .2);
+    --accent-shadow:  rgba(6, 21, 40, .35);
+    --done-bright:    #2fb57a;
+    --alert-bright:   #ff6b6b;
+    --alert-soft:     #ffb4b4;
+    --alert-fill:     rgba(255, 90, 90, .12);
+    --alert-line:     rgba(255, 120, 120, .35);
+    --warn-bright:    #f0a040;
+    --backdrop:       rgba(6, 21, 40, .6);
+    --mask:           #000;
   }
 
   /* ==========================================================
@@ -60,104 +117,225 @@
     line-height: 1.45;
     color: var(--ink);
     background: var(--page);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "tnum" 1;
   }
   button, input, select, textarea { font: inherit; color: inherit; }
   :focus-visible {
-    outline: 3px solid var(--focus);
+    outline: 2px solid var(--focus);
     outline-offset: 2px;
   }
   .visually-hidden {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
   }
+  .container { max-width: var(--container); margin: 0 auto; padding: 0 var(--space-6); }
 
   /* ==========================================================
      3. Buttons & form controls
      ========================================================== */
   .btn {
-    display: inline-flex; align-items: center; gap: var(--space-2);
-    border: 1px solid transparent; border-radius: var(--radius-sm);
-    padding: var(--space-2) var(--space-4);
-    font-weight: 600; cursor: pointer;
-    background: var(--surface); color: var(--blue-800); border-color: var(--line);
+    display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+    height: 36px; padding: 0 var(--space-4);
+    border: 1px solid var(--line); border-radius: var(--radius-sm);
+    background: var(--surface); color: var(--ink-2);
+    font-weight: 600; font-size: 13px; white-space: nowrap; cursor: pointer;
+    box-shadow: var(--shadow-xs);
+    transition: background-color .12s, border-color .12s, color .12s, box-shadow .12s;
   }
-  .btn:hover { background: var(--blue-50); }
-  .btn-primary { background: var(--blue-700); color: #fff; border-color: var(--blue-700); }
-  .btn-primary:hover { background: var(--blue-800); }
-  .btn-light { background: #fff; color: var(--blue-900); border-color: #fff; }
-  .btn-light:hover { background: var(--blue-100); }
+  .btn:hover { background: var(--surface-2); border-color: var(--ink-4); color: var(--ink); }
+  .btn svg { width: 16px; height: 16px; flex: none; }
+  .btn-primary { background: var(--blue-600); color: var(--on-dark); border-color: var(--blue-600); }
+  .btn-primary:hover { background: var(--blue-700); border-color: var(--blue-700); color: var(--on-dark); }
+  .btn-accent {
+    background: var(--blue-500); color: var(--on-dark); border-color: var(--blue-500);
+    box-shadow: 0 1px 0 var(--on-dark-hi) inset, 0 2px 8px var(--accent-shadow);
+  }
+  .btn-accent:hover { background: var(--blue-600); border-color: var(--blue-600); color: var(--on-dark); }
+  .btn-ghost { background: transparent; border-color: transparent; box-shadow: none; color: var(--ink-3); }
+  .btn-ghost:hover { background: var(--line-2); border-color: transparent; color: var(--ink); }
   .btn[disabled] { opacity: .6; cursor: not-allowed; }
-  .btn-sm { padding: 2px var(--space-2); font-size: 12px; }
-  .btn-danger { background: var(--p-critical); color: #fff; border-color: var(--p-critical); }
-  .btn-danger:hover { background: #a31f1f; }
+  .btn-sm { height: 26px; padding: 0 var(--space-3); font-size: 12px; }
+  .btn-danger { background: var(--p-critical); color: var(--on-dark); border-color: var(--p-critical); }
+  .btn-danger:hover { background: var(--danger-hover); border-color: var(--danger-hover); color: var(--on-dark); }
 
   .icon-btn {
     border: 0; background: transparent; cursor: pointer;
-    width: 26px; height: 26px; border-radius: var(--radius-sm);
+    width: 28px; height: 28px; border-radius: var(--radius-xs);
     display: inline-grid; place-items: center;
-    color: var(--ink-3); font-size: 18px; line-height: 1;
+    color: var(--ink-4); line-height: 1;
+    transition: background-color .12s, color .12s;
   }
-  .icon-btn:hover { background: var(--blue-100); color: var(--ink); }
+  .icon-btn svg { width: 16px; height: 16px; }
+  .icon-btn:hover { background: var(--line-2); color: var(--ink); }
 
   input[type="text"], input[type="date"], input[type="search"], select, textarea {
-    width: 100%;
+    width: 100%; height: 36px;
     border: 1px solid var(--line); border-radius: var(--radius-sm);
-    padding: var(--space-2) var(--space-3);
+    padding: 0 var(--space-3);
     background: var(--surface);
+    box-shadow: var(--shadow-xs);
+    transition: border-color .12s, box-shadow .12s;
   }
-  textarea { resize: vertical; min-height: 80px; }
+  textarea { height: auto; padding: var(--space-2) var(--space-3); resize: vertical; min-height: 92px; }
+  input:hover, select:hover, textarea:hover { border-color: var(--ink-4); }
+  input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: none; border-color: var(--focus); box-shadow: var(--focus-ring);
+  }
   [aria-invalid="true"] { border-color: var(--error); }
+  [aria-invalid="true"]:focus-visible { box-shadow: 0 0 0 3px var(--danger-ring); }
 
   /* ==========================================================
-     4. Header, wordmark & summary strip
+     4. App bar (global navigation chrome)
      ========================================================== */
-  .app-header {
-    background: linear-gradient(90deg, var(--blue-900), var(--blue-700));
-    color: #fff;
-    padding: var(--space-4) var(--space-5);
+  .appbar {
+    background: var(--navy-950);
+    color: var(--on-dark);
+    border-bottom: 1px solid var(--navy-800);
+    position: sticky; top: 0; z-index: 20;
   }
-  .header-row {
-    display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4);
-    justify-content: space-between;
+  .appbar .container {
+    display: flex; align-items: center; gap: var(--space-4);
+    min-height: 56px;
   }
-  .wordmark { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: .02em; }
-  .wordmark span { font-weight: 400; opacity: .8; }
-  .header-actions { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
-  .sending-indicator { font-size: 12px; opacity: .9; }
+  .brand { display: flex; align-items: center; gap: var(--space-3); min-width: 0; }
+  .brand-mark { width: 30px; height: 30px; flex: none; display: block; }
+  .wordmark {
+    margin: 0; font-size: 15px; font-weight: 700; letter-spacing: .04em; white-space: nowrap;
+  }
+  .brand-divider { width: 1px; height: 20px; background: var(--on-dark-line); }
+  .brand-product { font-size: 14px; color: var(--on-dark-2); white-space: nowrap; }
+  .env-badge {
+    font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    padding: 3px var(--space-2); border-radius: var(--radius-xs);
+    color: var(--env-fg); background: var(--env-bg); border: 1px solid var(--env-line);
+    white-space: nowrap;
+  }
+  .appbar-actions { margin-left: auto; display: flex; align-items: center; gap: var(--space-3); }
+  .sending-indicator {
+    display: inline-flex; align-items: center; gap: var(--space-2);
+    font-size: 12px; color: var(--on-dark-2);
+  }
   .sending-indicator[hidden] { display: none; }
+  .spinner {
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid var(--on-dark-line); border-top-color: var(--on-dark);
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ==========================================================
+     5. Portfolio header: title, KPI tiles, distribution bar
+     ========================================================== */
+  .page-head {
+    background:
+      linear-gradient(180deg, var(--navy-900) 0, var(--navy-800) 100%);
+    color: var(--on-dark);
+    padding: var(--space-6) 0 var(--space-7);
+    position: relative; overflow: hidden;
+  }
+  /* subtle engineering grid, pure CSS */
+  .page-head::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(var(--on-dark-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--on-dark-line) 1px, transparent 1px);
+    background-size: 32px 32px;
+    opacity: .35;
+    mask-image: linear-gradient(100deg, transparent 35%, var(--mask) 100%);
+    -webkit-mask-image: linear-gradient(100deg, transparent 35%, var(--mask) 100%);
+  }
+  .page-head .container { position: relative; }
+  .eyebrow {
+    margin: 0 0 var(--space-2); font-size: 11px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--blue-200);
+  }
+  .title-row { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
+  .page-title { margin: 0; font-size: 28px; line-height: 1.15; font-weight: 700; letter-spacing: -.01em; }
+  .as-of { margin: var(--space-2) 0 0; font-size: 13px; color: var(--on-dark-2); }
+  .demo-note {
+    display: flex; align-items: center; gap: var(--space-2);
+    margin: 0; padding: var(--space-2) var(--space-3);
+    font-size: 12px; color: var(--on-dark-2);
+    border: 1px solid var(--on-dark-line); border-radius: var(--radius-sm);
+    background: var(--on-dark-fill-1); max-width: 520px;
+  }
+  .demo-note svg { width: 14px; height: 14px; flex: none; }
 
   .summary {
-    display: flex; flex-wrap: wrap; gap: var(--space-2);
-    margin: var(--space-4) 0 var(--space-2); padding: 0;
+    display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--space-3); margin: var(--space-5) 0 0; padding: 0;
   }
-  .summary div {
-    background: rgba(255, 255, 255, .12);
-    border: 1px solid rgba(255, 255, 255, .2);
-    border-radius: var(--radius-sm);
-    padding: var(--space-1) var(--space-3);
-    display: flex; align-items: baseline; gap: var(--space-2);
+  .kpi {
+    --kpi-color: var(--blue-200);
+    position: relative;
+    background: var(--on-dark-fill-2);
+    border: 1px solid var(--on-dark-line);
+    border-radius: var(--radius);
+    padding: var(--space-3) var(--space-4) var(--space-3);
+    display: flex; flex-direction: column-reverse; gap: var(--space-1);
   }
-  .summary dt { font-size: 12px; opacity: .85; }
-  .summary dd { margin: 0; font-weight: 700; font-size: 16px; }
-  .summary .sum-overdue { background: rgba(198, 40, 40, .35); border-color: rgba(255, 180, 180, .5); }
-  .demo-note { margin: 0; font-size: 12px; opacity: .8; }
+  .kpi dt { font-size: 12px; color: var(--on-dark-2); display: flex; align-items: center; gap: var(--space-2); }
+  .kpi dt::before {
+    content: ""; width: 8px; height: 8px; border-radius: 2px; flex: none; background: var(--kpi-color);
+  }
+  .kpi dd { margin: 0; font-size: 26px; font-weight: 700; line-height: 1.1; letter-spacing: -.01em; }
+  .kpi.k-backlog     { --kpi-color: var(--s-backlog); }
+  .kpi.k-in-progress { --kpi-color: var(--blue-500); }
+  .kpi.k-blocked     { --kpi-color: var(--s-blocked); }
+  .kpi.k-done        { --kpi-color: var(--done-bright); }
+  .kpi.k-overdue     { --kpi-color: var(--alert-bright); background: var(--alert-fill); border-color: var(--alert-line); }
+  .kpi.k-overdue dd  { color: var(--alert-soft); }
+
+  .dist { margin-top: var(--space-4); }
+  .dist-bar {
+    display: flex; height: 8px; border-radius: 999px; overflow: hidden;
+    background: var(--on-dark-fill-3); gap: 2px;
+  }
+  .dist-seg { height: 100%; transition: flex-grow .3s ease; min-width: 0; }
+  .dist-legend {
+    display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4);
+    margin: var(--space-2) 0 0; padding: 0; list-style: none;
+    font-size: 12px; color: var(--on-dark-2);
+  }
+  .dist-legend li { display: inline-flex; align-items: center; gap: 6px; }
+  .dist-legend b { color: var(--on-dark); font-weight: 600; }
+  .seg-backlog     { background: var(--s-backlog); }
+  .seg-in-progress { background: var(--blue-500); }
+  .seg-blocked     { background: var(--s-blocked); }
+  .seg-done        { background: var(--done-bright); }
+  .swatch { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
 
   /* ==========================================================
-     5. Filter bar
+     6. Toolbar / filter bar
      ========================================================== */
-  main { padding: var(--space-4) var(--space-5) var(--space-6); }
+  main { padding: 0 0 var(--space-7); }
   .filters {
-    display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3);
+    display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3) var(--space-4);
     background: var(--surface); border: 1px solid var(--line);
-    border-radius: var(--radius); padding: var(--space-3) var(--space-4);
-    margin-bottom: var(--space-4); box-shadow: var(--shadow);
+    border-radius: var(--radius-lg); padding: var(--space-3) var(--space-4);
+    margin: calc(-1 * var(--space-6)) 0 var(--space-5);
+    box-shadow: var(--shadow-md);
+    position: relative;
   }
-  .filters .field { display: flex; flex-direction: column; gap: var(--space-1); min-width: 180px; flex: 1 1 180px; }
-  .filters label { font-size: 12px; font-weight: 600; color: var(--ink-2); }
+  .filters-title {
+    align-self: center; display: flex; align-items: center; gap: var(--space-2);
+    font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3);
+    padding-right: var(--space-4); border-right: 1px solid var(--line); height: 36px; margin: 0;
+  }
+  .filters-title svg { width: 16px; height: 16px; }
+  .filters .field { display: flex; flex-direction: column; gap: var(--space-1); min-width: 180px; flex: 1 1 200px; }
+  .filters label { font-size: 12px; font-weight: 600; color: var(--ink-3); }
   .filters .btn { flex: 0 0 auto; }
+  .search-wrap { position: relative; }
+  .search-wrap svg {
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    width: 15px; height: 15px; color: var(--ink-4); pointer-events: none;
+  }
+  .search-wrap input { padding-left: 32px; }
 
   /* ==========================================================
-     6. Board & columns
+     7. Board & columns
      ========================================================== */
   .board {
     display: grid;
@@ -166,192 +344,327 @@
     align-items: start;
   }
   .column {
-    background: var(--blue-50);
-    border: 2px solid var(--line);
-    border-radius: var(--radius);
+    --status-color: var(--s-backlog);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--status-color);
+    border-radius: var(--radius-lg);
     display: flex; flex-direction: column;
-    min-height: 240px;
-    transition: background-color .12s, border-color .12s;
+    min-height: 320px;
+    transition: background-color .12s, border-color .12s, box-shadow .12s;
   }
+  .column.st-in-progress { --status-color: var(--s-in-progress); }
+  .column.st-blocked     { --status-color: var(--s-blocked); }
+  .column.st-done        { --status-color: var(--s-done); }
   .column.is-drop-target {
-    background: var(--blue-100);
-    border-style: dashed;
+    background: var(--blue-50);
     border-color: var(--blue-500);
+    border-top-color: var(--status-color);
+    box-shadow: 0 0 0 3px var(--drop-ring);
+  }
+  .column.is-drop-target .card-list {
+    outline: 2px dashed var(--blue-200); outline-offset: -6px; border-radius: var(--radius);
   }
   .column-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: var(--space-3) var(--space-4);
-    border-bottom: 1px solid var(--line);
+    display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3);
+    padding: var(--space-3) var(--space-4) var(--space-3);
+    border-bottom: 1px solid var(--line-2);
   }
-  .column-header h2 { margin: 0; font-size: 15px; color: var(--blue-900); }
-  .column-hint { margin: 2px 0 0; font-size: 11px; color: var(--ink-3); font-weight: 400; }
+  .column-header h2 {
+    margin: 0; font-size: 13px; font-weight: 700; color: var(--ink);
+    letter-spacing: .02em; text-transform: uppercase;
+    display: flex; align-items: center; gap: var(--space-2);
+  }
+  .status-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--status-color);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--status-color) 18%, transparent);
+  }
+  .column-hint { margin: var(--space-1) 0 0; font-size: 12px; color: var(--ink-3); font-weight: 400; }
   .count-badge {
-    background: var(--blue-700); color: #fff;
-    border-radius: 999px; padding: 2px var(--space-2);
-    font-size: 12px; font-weight: 700; min-width: 26px; text-align: center;
+    background: var(--surface); color: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 999px; padding: 1px var(--space-2);
+    font-size: 12px; font-weight: 700; min-width: 28px; text-align: center;
+    font-variant-numeric: tabular-nums;
   }
   .card-list {
     display: flex; flex-direction: column; gap: var(--space-3);
     padding: var(--space-3); flex: 1;
   }
-  .empty { color: var(--ink-3); font-size: 12px; text-align: center; padding: var(--space-4) 0; margin: 0; }
-
-  @media (max-width: 767px) {
-    .app-header, main { padding-left: var(--space-4); padding-right: var(--space-4); }
-    .board { grid-template-columns: 1fr; }
-    .column { min-height: 0; }
+  .empty {
+    color: var(--ink-4); font-size: 12px; text-align: center;
+    padding: var(--space-6) var(--space-3); margin: 0;
+    border: 1px dashed var(--line); border-radius: var(--radius);
   }
 
   /* ==========================================================
-     7. Cards
+     8. Cards
      ========================================================== */
   .card {
     --prio-color: var(--p-medium);
+    --prio-bg: var(--p-medium-bg);
+    position: relative;
     background: var(--surface);
     border: 1px solid var(--line);
-    border-left: 5px solid var(--prio-color);
-    border-radius: var(--radius-sm);
-    padding: var(--space-3);
+    border-radius: var(--radius);
+    padding: var(--space-3) var(--space-3) 0 var(--space-4);
     box-shadow: var(--shadow);
     cursor: grab;
+    transition: box-shadow .15s, border-color .15s, transform .15s;
   }
-  .card.prio-critical { --prio-color: var(--p-critical); }
-  .card.prio-high     { --prio-color: var(--p-high); }
-  .card.prio-medium   { --prio-color: var(--p-medium); }
-  .card.prio-low      { --prio-color: var(--p-low); }
-  .card.is-dragging { opacity: .45; }
+  .card::before {
+    content: ""; position: absolute; left: -1px; top: 10px; bottom: 10px; width: 3px;
+    border-radius: 0 3px 3px 0; background: var(--prio-color);
+  }
+  .card:hover { box-shadow: var(--shadow-md); border-color: var(--blue-200); transform: translateY(-1px); }
+  .card.prio-critical { --prio-color: var(--p-critical); --prio-bg: var(--p-critical-bg); }
+  .card.prio-high     { --prio-color: var(--p-high);     --prio-bg: var(--p-high-bg); }
+  .card.prio-medium   { --prio-color: var(--p-medium);   --prio-bg: var(--p-medium-bg); }
+  .card.prio-low      { --prio-color: var(--p-low);      --prio-bg: var(--p-low-bg); }
+  .card.is-dragging { opacity: .45; transform: rotate(1.5deg); }
+  .card.is-done .card-title { color: var(--ink-3); }
 
-  .card-top { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
-  .card-id { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 11px; color: var(--ink-3); }
-  .card-top .icon-btn { margin-left: auto; }
-  .card-title { margin: var(--space-2) 0 var(--space-1); font-size: 14px; line-height: 1.3; overflow-wrap: anywhere; }
+  .card-top { display: flex; align-items: center; gap: var(--space-2); }
+  .card-id { font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: .02em; }
+  .card-top .icon-btn { margin-left: auto; margin-right: calc(-1 * var(--space-1)); }
+  .card-title {
+    margin: var(--space-2) 0 var(--space-1); font-size: 14px; font-weight: 600;
+    line-height: 1.35; overflow-wrap: anywhere; color: var(--ink);
+  }
   .card-desc {
-    margin: 0 0 var(--space-2); color: var(--ink-2); font-size: 12px; overflow-wrap: anywhere;
+    margin: 0 0 var(--space-3); color: var(--ink-3); font-size: 12.5px; overflow-wrap: anywhere;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
-  .card-meta { margin: 0 0 var(--space-2); display: grid; grid-template-columns: auto 1fr; gap: 2px var(--space-2); font-size: 12px; }
-  .card-meta dt { color: var(--ink-3); }
-  .card-meta dd { margin: 0; overflow-wrap: anywhere; }
-
-  .pill, .tag, .badge-overdue {
-    display: inline-block; border-radius: 999px;
-    padding: 1px var(--space-2); font-size: 11px; font-weight: 700; white-space: nowrap;
+  .card-meta {
+    margin: 0 0 var(--space-3); display: grid; grid-template-columns: auto 1fr;
+    gap: var(--space-1) var(--space-3); font-size: 12px;
   }
-  .pill { color: #fff; background: var(--prio-color); }
-  .card.prio-high .pill { color: #231400; }
-  .tag { background: var(--blue-100); color: var(--blue-800); font-weight: 600; }
-  .badge-overdue { background: #fdecea; color: var(--p-critical); border: 1px solid #f3b8b3; }
+  .card-meta dt { color: var(--ink-4); }
+  .card-meta dd { margin: 0; color: var(--ink-2); overflow-wrap: anywhere; }
 
-  .card-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); flex-wrap: wrap; }
+  .pill, .tag, .due {
+    display: inline-flex; align-items: center; gap: 5px;
+    border-radius: var(--radius-xs); padding: 2px 7px;
+    font-size: 11px; font-weight: 600; white-space: nowrap; line-height: 1.4;
+  }
+  .pill { color: var(--prio-color); background: var(--prio-bg); }
+  .pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .tag { background: var(--line-2); color: var(--ink-2); }
+  .due { background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line-2); }
+  .due svg { width: 12px; height: 12px; }
+  .due.is-overdue { background: var(--p-critical-bg); color: var(--p-critical); border-color: var(--danger-line); }
+  .due.is-soon { background: var(--p-high-bg); color: var(--p-high); border-color: var(--warn-line); }
+  .due.is-done { color: var(--ok); }
+  .chips { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-2); margin-bottom: var(--space-3); }
+
+  .card-foot {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-2);
+    margin: 0 calc(-1 * var(--space-3)) 0 calc(-1 * var(--space-4));
+    padding: var(--space-2) var(--space-3) var(--space-2) var(--space-4);
+    border-top: 1px solid var(--line-2);
+  }
+  .assignee { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 0; font-size: 12px; color: var(--ink-2); font-weight: 500; }
+  .assignee-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .avatar {
+    --av: var(--av-0);
+    width: 24px; height: 24px; border-radius: 50%; flex: none;
+    display: inline-grid; place-items: center;
+    font-size: 10px; font-weight: 700; letter-spacing: .02em;
+    color: var(--av); background: color-mix(in srgb, var(--av) 14%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--av) 30%, var(--surface));
+  }
+  .av-1 { --av: var(--av-1); } .av-2 { --av: var(--av-2); } .av-3 { --av: var(--av-3); }
+  .av-4 { --av: var(--av-4); } .av-5 { --av: var(--av-5); }
+
   .move-select {
-    width: auto; padding: 2px var(--space-2); font-size: 12px;
-    color: var(--blue-800); font-weight: 600; cursor: pointer;
+    width: auto; height: 26px; padding: 0 var(--space-2); font-size: 12px;
+    color: var(--blue-700); font-weight: 600; cursor: pointer;
+    border-color: transparent; background: var(--blue-50); box-shadow: none;
   }
+  .move-select:hover { border-color: var(--blue-200); }
   .confirm-row {
     display: flex; align-items: center; gap: var(--space-2);
-    margin-top: var(--space-2); padding: var(--space-2);
-    background: #fdecea; border-radius: var(--radius-sm);
+    margin: 0 calc(-1 * var(--space-3)) 0 calc(-1 * var(--space-4));
+    padding: var(--space-2) var(--space-3) var(--space-2) var(--space-4);
+    background: var(--p-critical-bg); border-top: 1px solid var(--danger-line);
+    border-radius: 0 0 var(--radius) var(--radius);
     font-size: 12px; font-weight: 600; color: var(--p-critical);
   }
   .confirm-row span { margin-right: auto; }
 
   /* ==========================================================
-     8. Add Task dialog
+     9. Add Task dialog
      ========================================================== */
   dialog {
-    border: 0; border-radius: var(--radius); padding: 0;
-    width: min(560px, calc(100vw - 32px));
+    border: 0; border-radius: var(--radius-lg); padding: 0;
+    width: min(620px, calc(100vw - 32px));
     box-shadow: var(--shadow-lg);
+    color: var(--ink);
   }
-  dialog::backdrop { background: rgba(11, 42, 74, .55); }
+  dialog::backdrop { background: var(--backdrop); backdrop-filter: blur(2px); }
   .dialog-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: var(--space-4) var(--space-5);
-    background: var(--blue-900); color: #fff;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4);
+    padding: var(--space-5) var(--space-5) var(--space-4);
+    border-bottom: 1px solid var(--line);
   }
-  .dialog-header h2 { margin: 0; font-size: 17px; }
-  .dialog-header .icon-btn { color: #fff; }
-  .dialog-header .icon-btn:hover { background: rgba(255, 255, 255, .15); color: #fff; }
-  .task-form { padding: var(--space-4) var(--space-5) var(--space-5); }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3) var(--space-4); }
+  .dialog-header h2 { margin: 0; font-size: 18px; font-weight: 700; }
+  .dialog-sub { margin: var(--space-1) 0 0; font-size: 13px; color: var(--ink-3); }
+  .task-form { padding: var(--space-5) var(--space-5) 0; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2) var(--space-4); }
   .form-grid .full { grid-column: 1 / -1; }
-  .form-field label { display: block; font-weight: 600; font-size: 13px; margin-bottom: var(--space-1); }
+  .form-field label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; color: var(--ink-2); }
   .req { color: var(--p-critical); }
-  .hint { font-size: 11px; color: var(--ink-3); font-weight: 400; }
-  .field-error { color: var(--error); font-size: 12px; margin: var(--space-1) 0 0; min-height: 1em; }
-  .form-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-4); }
-  @media (max-width: 520px) {
-    .form-grid { grid-template-columns: 1fr; }
+  .hint { font-size: 12px; color: var(--ink-4); font-weight: 400; }
+  .field-error { color: var(--error); font-size: 12px; margin: var(--space-1) 0 0; min-height: 1.25em; }
+  .form-actions {
+    display: flex; justify-content: flex-end; gap: var(--space-2);
+    margin: var(--space-3) calc(-1 * var(--space-5)) 0;
+    padding: var(--space-4) var(--space-5);
+    background: var(--surface-2); border-top: 1px solid var(--line);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
   }
 
   /* ==========================================================
-     9. Toasts
+     10. Toasts
      ========================================================== */
   .toasts {
-    position: fixed; right: var(--space-4); bottom: var(--space-4);
+    position: fixed; right: var(--space-5); bottom: var(--space-5);
     display: flex; flex-direction: column; gap: var(--space-2);
     z-index: 100; max-width: calc(100vw - 32px);
   }
   .toast {
-    background: var(--ink); color: #fff;
-    border-left: 5px solid var(--ok);
-    border-radius: var(--radius-sm);
+    --toast-color: var(--ok);
+    background: var(--navy-950); color: var(--on-dark);
+    border: 1px solid var(--navy-800);
+    border-left: 4px solid var(--toast-color);
+    border-radius: var(--radius);
     padding: var(--space-3) var(--space-4);
     box-shadow: var(--shadow-lg);
-    font-weight: 500; min-width: 240px;
+    font-size: 13px; font-weight: 500; min-width: 260px;
+    animation: toast-in .2s ease-out;
   }
-  .toast.toast-warn  { border-left-color: var(--p-high); }
-  .toast.toast-error { border-left-color: var(--p-critical); }
+  .toast.toast-warn  { --toast-color: var(--warn-bright); }
+  .toast.toast-error { --toast-color: var(--alert-bright); }
+  @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* ==========================================================
+     11. Responsive & motion preferences
+     ========================================================== */
+  @media (max-width: 1200px) {
+    .board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 767px) {
+    .container { padding: 0 var(--space-4); }
+    .brand-divider, .brand-product { display: none; }
+    .page-head { padding: var(--space-5) 0 var(--space-7); }
+    .page-title { font-size: 22px; }
+    .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .kpi dd { font-size: 22px; }
+    .filters-title { display: none; }
+    .board { grid-template-columns: 1fr; }
+    .column { min-height: 0; }
+  }
+  @media (max-width: 520px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .env-badge { display: none; }
+    .toasts { right: var(--space-4); bottom: var(--space-4); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms; transition-duration: .01ms; }
+  }
 </style>
 </head>
 <body>
 
 <!-- ============================================================
-     Header: wordmark, actions, live summary strip, demo note
+     App bar: neutral text wordmark, environment badge, primary action
      ============================================================ -->
-<header class="app-header">
-  <div class="header-row">
-    <h1 class="wordmark">UOB IT PMO <span>· Project Board</span></h1>
-    <div class="header-actions">
-      <span id="sending-indicator" class="sending-indicator" hidden>✉ Sending notification…</span>
-      <button type="button" id="open-add" class="btn btn-light">+ Add Task</button>
+<header class="appbar">
+  <div class="container">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <rect width="32" height="32" rx="7" fill="#1f5fd1"/>
+        <rect x="7" y="8" width="5" height="16" rx="1.5" fill="#fff"/>
+        <rect x="13.5" y="8" width="5" height="10" rx="1.5" fill="#fff" opacity=".75"/>
+        <rect x="20" y="8" width="5" height="6" rx="1.5" fill="#fff" opacity=".5"/>
+      </svg>
+      <p class="wordmark">UOB IT PMO</p>
+      <span class="brand-divider" aria-hidden="true"></span>
+      <span class="brand-product">Delivery Board</span>
+      <span class="env-badge" title="Internal demo / training environment">Training</span>
+    </div>
+    <div class="appbar-actions">
+      <span id="sending-indicator" class="sending-indicator" hidden><span class="spinner" aria-hidden="true"></span>Sending notification…</span>
+      <button type="button" id="open-add" class="btn btn-accent">
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
+        Add Task
+      </button>
     </div>
   </div>
-  <dl class="summary" aria-label="Board summary">
-    <div><dt>Total</dt><dd id="sum-total">0</dd></div>
-    <div><dt>Backlog</dt><dd id="sum-backlog">0</dd></div>
-    <div><dt>In Progress</dt><dd id="sum-in-progress">0</dd></div>
-    <div><dt>Blocked</dt><dd id="sum-blocked">0</dd></div>
-    <div><dt>Done</dt><dd id="sum-done">0</dd></div>
-    <div class="sum-overdue"><dt>⚠ Overdue</dt><dd id="sum-overdue">0</dd></div>
-  </dl>
-  <p class="demo-note">Internal demo / training tool. Data is held in memory only, and refreshing the page resets the board to the demo tasks.</p>
 </header>
 
-<main>
-  <!-- ============================================================
-       Filter bar (client-side filtering over state.tasks)
-       ============================================================ -->
-  <section class="filters" aria-label="Filters">
-    <div class="field">
-      <label for="filter-project">Project</label>
-      <select id="filter-project"><option value="">All projects</option></select>
+<!-- ============================================================
+     Portfolio header: title, live KPI summary, status distribution
+     ============================================================ -->
+<section class="page-head" aria-labelledby="page-title">
+  <div class="container">
+    <p class="eyebrow">IT Project Management Office</p>
+    <div class="title-row">
+      <div>
+        <h1 class="page-title" id="page-title">Project Board</h1>
+        <p class="as-of" id="as-of">Portfolio snapshot</p>
+      </div>
+      <p class="demo-note">
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 7v4M8 4.8v.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Internal demo / training tool. Data is held in memory only, and refreshing the page resets the board to the demo tasks.
+      </p>
     </div>
-    <div class="field">
-      <label for="filter-assignee">Assignee contains</label>
-      <input type="search" id="filter-assignee" placeholder="e.g. Tan" autocomplete="off">
-    </div>
-    <div class="field">
-      <label for="filter-priority">Priority</label>
-      <select id="filter-priority"><option value="">All priorities</option></select>
-    </div>
-    <button type="button" id="clear-filters" class="btn">Clear filters</button>
-  </section>
+    <dl class="summary" aria-label="Board summary">
+      <div class="kpi k-total"><dt>Total tasks</dt><dd id="sum-total">0</dd></div>
+      <div class="kpi k-backlog"><dt>Backlog</dt><dd id="sum-backlog">0</dd></div>
+      <div class="kpi k-in-progress"><dt>In Progress</dt><dd id="sum-in-progress">0</dd></div>
+      <div class="kpi k-blocked"><dt>Blocked</dt><dd id="sum-blocked">0</dd></div>
+      <div class="kpi k-done"><dt>Done</dt><dd id="sum-done">0</dd></div>
+      <div class="kpi k-overdue"><dt>⚠ Overdue</dt><dd id="sum-overdue">0</dd></div>
+    </dl>
+    <div class="dist" id="dist" aria-label="Status distribution"></div>
+  </div>
+</section>
 
-  <!-- ============================================================
-       Kanban board (columns are rendered from STATUSES in JS)
-       ============================================================ -->
-  <section id="board" class="board" aria-label="Kanban board"></section>
+<main>
+  <div class="container">
+    <!-- ============================================================
+         Filter bar (client-side filtering over state.tasks)
+         ============================================================ -->
+    <section class="filters" aria-label="Filters">
+      <p class="filters-title">
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 3.5h12M4.5 8h7M7 12.5h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+        Filter
+      </p>
+      <div class="field">
+        <label for="filter-project">Project</label>
+        <select id="filter-project"><option value="">All projects</option></select>
+      </div>
+      <div class="field">
+        <label for="filter-assignee">Assignee contains</label>
+        <div class="search-wrap">
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input type="search" id="filter-assignee" placeholder="e.g. Tan" autocomplete="off">
+        </div>
+      </div>
+      <div class="field">
+        <label for="filter-priority">Priority</label>
+        <select id="filter-priority"><option value="">All priorities</option></select>
+      </div>
+      <button type="button" id="clear-filters" class="btn btn-ghost">Clear filters</button>
+    </section>
+
+    <!-- ============================================================
+         Kanban board (columns are rendered from STATUSES in JS)
+         ============================================================ -->
+    <section id="board" class="board" aria-label="Kanban board"></section>
+  </div>
 </main>
 
 <!-- ============================================================
@@ -359,8 +672,13 @@
      ============================================================ -->
 <dialog id="add-dialog" aria-labelledby="add-dialog-title">
   <div class="dialog-header">
-    <h2 id="add-dialog-title">Add Task</h2>
-    <button type="button" class="icon-btn" id="close-add" aria-label="Close Add Task dialog">×</button>
+    <div>
+      <h2 id="add-dialog-title">Add Task</h2>
+      <p class="dialog-sub">Log a new work item on the delivery board. Fields marked <span class="req">*</span> are required.</p>
+    </div>
+    <button type="button" class="icon-btn" id="close-add" aria-label="Close Add Task dialog">
+      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
   </div>
   <form id="task-form" class="task-form" novalidate>
     <div class="form-grid">
@@ -503,6 +821,33 @@ function formatDate(iso) {
   return new Date(y, m - 1, d).toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" });
 }
 
+// Whole days from today to a YYYY-MM-DD date (negative = past), in local time
+function daysFromToday(iso) {
+  const [y, m, d] = iso.split("-").map(Number);
+  const [ty, tm, td] = todayISO().split("-").map(Number);
+  return Math.round((new Date(y, m - 1, d) - new Date(ty, tm - 1, td)) / 86400000);
+}
+
+function dueLabel(task) {
+  if (task.status === "Done") return { text: formatDate(task.dueDate), cls: "is-done" };
+  const days = daysFromToday(task.dueDate);
+  if (days < 0) return { text: `⚠ Overdue · ${-days}d`, cls: "is-overdue" };
+  if (days === 0) return { text: "Due today", cls: "is-soon" };
+  if (days <= 7) return { text: `Due in ${days}d`, cls: "is-soon" };
+  return { text: formatDate(task.dueDate), cls: "" };
+}
+
+function initials(name) {
+  const parts = name.trim().split(/\s+/);
+  return ((parts[0] || "")[0] + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase();
+}
+
+function avatarIndex(name) {
+  let h = 0;
+  for (const ch of name) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return h % 6;
+}
+
 function slug(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 }
@@ -568,23 +913,35 @@ function renderCard(task) {
        </div>`
     : "";
 
+  const due = dueLabel(task);
+
   return `
-    <article class="card prio-${prio}" draggable="true" data-id="${id}" aria-label="${id}: ${escapeHtml(task.title)}">
+    <article class="card prio-${prio}${task.status === "Done" ? " is-done" : ""}" draggable="true" data-id="${id}" aria-label="${id}: ${escapeHtml(task.title)}">
       <div class="card-top">
         <span class="card-id">${id}</span>
         <span class="pill" title="Priority">${escapeHtml(task.priority)}</span>
-        ${overdue ? `<span class="badge-overdue">⚠ Overdue</span>` : ""}
-        <button type="button" class="icon-btn" data-action="delete" aria-label="Delete task ${id}">×</button>
+        <button type="button" class="icon-btn" data-action="delete" aria-label="Delete task ${id}">
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.6 8.5h5.8l.6-8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </button>
       </div>
       <h3 class="card-title">${escapeHtml(task.title)}</h3>
       ${task.description ? `<p class="card-desc">${escapeHtml(task.description)}</p>` : ""}
       <dl class="card-meta">
         <dt>Project</dt><dd>${escapeHtml(task.project)}</dd>
-        <dt>Assignee</dt><dd>${escapeHtml(task.assignee)}</dd>
-        <dt>Due</dt><dd><time datetime="${escapeHtml(task.dueDate)}">${escapeHtml(formatDate(task.dueDate))}</time></dd>
       </dl>
-      <div class="card-foot">
+      <div class="chips">
+        <span class="due ${due.cls}" title="Due ${escapeHtml(formatDate(task.dueDate))}${overdue ? " (overdue)" : ""}">
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <time datetime="${escapeHtml(task.dueDate)}">${escapeHtml(due.text)}</time>
+        </span>
         <span class="tag">${escapeHtml(task.category)}</span>
+      </div>
+      <div class="card-foot">
+        <span class="assignee" title="Assignee: ${escapeHtml(task.assignee)}">
+          <span class="avatar av-${avatarIndex(task.assignee)}" aria-hidden="true">${escapeHtml(initials(task.assignee))}</span>
+          <span class="visually-hidden">Assignee:</span>
+          <span class="assignee-name">${escapeHtml(task.assignee)}</span>
+        </span>
         <select class="move-select" data-action="move" aria-label="Move task ${id} to another column">
           <option value="">Move ▸</option>
           ${moveOptions}
@@ -602,6 +959,17 @@ function renderSummary() {
     document.getElementById("sum-" + slug(s.name)).textContent = counts[s.name];
   });
   document.getElementById("sum-overdue").textContent = state.tasks.filter(isOverdue).length;
+
+  // Status distribution bar (share of all tasks per column)
+  const total = state.tasks.length;
+  const pct = n => (total ? Math.round((n / total) * 100) : 0);
+  document.getElementById("dist").innerHTML = `
+    <div class="dist-bar" aria-hidden="true">
+      ${STATUSES.map(s => `<span class="dist-seg seg-${slug(s.name)}" style="flex-grow:${counts[s.name]}"></span>`).join("")}
+    </div>
+    <ul class="dist-legend">
+      ${STATUSES.map(s => `<li><span class="swatch seg-${slug(s.name)}" aria-hidden="true"></span>${escapeHtml(s.name)} <b>${pct(counts[s.name])}%</b></li>`).join("")}
+    </ul>`;
 }
 
 function renderBoard() {
@@ -615,10 +983,10 @@ function renderBoard() {
     const countText = filtering ? `${shown.length} / ${all.length}` : String(all.length);
     const headingId = "col-" + slug(s.name);
     return `
-      <section class="column" data-status="${escapeHtml(s.name)}" aria-labelledby="${headingId}">
+      <section class="column st-${slug(s.name)}" data-status="${escapeHtml(s.name)}" aria-labelledby="${headingId}">
         <div class="column-header">
           <div>
-            <h2 id="${headingId}">${escapeHtml(s.name)}</h2>
+            <h2 id="${headingId}"><span class="status-dot" aria-hidden="true"></span>${escapeHtml(s.name)}</h2>
             <p class="column-hint">${escapeHtml(s.hint)}</p>
           </div>
           <span class="count-badge" aria-label="${escapeHtml(countText)} tasks">${escapeHtml(countText)}</span>
@@ -935,6 +1303,9 @@ function init() {
   document.getElementById("open-add").addEventListener("click", openAddDialog);
   document.getElementById("close-add").addEventListener("click", () => dialog.close());
   document.getElementById("cancel-add").addEventListener("click", () => dialog.close());
+
+  document.getElementById("as-of").textContent = "Portfolio snapshot as of " +
+    new Date().toLocaleDateString(undefined, { weekday: "short", day: "2-digit", month: "short", year: "numeric" });
 
   seedTasks();
   renderBoard();
