@@ -4,9 +4,15 @@ A single-file IT PMO Kanban board for internal demos and training. It shows how 
 
 **Live demo:** https://sambapodili.github.io/kanbanboard/
 
-## Screenshot
+## Screenshots
+
+**Timeline view** (default): each task plotted by due date, with overdue days in red.
 
 ![UOB IT PMO Board in timeline view, with each task plotted by due date](docs/screenshot.png)
+
+**Board view**: the four Kanban lanes with drag and drop.
+
+![UOB IT PMO Board in board view, showing the four colour Kanban lanes](docs/screenshot-board.png)
 
 ## Features
 
