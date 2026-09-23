@@ -14,3 +14,9 @@ node_modules/
 .idea/
 .claude/settings.local.json
 .playwright-mcp/
+
+# Application Health Agent reports (describe weaknesses; keep out of the public repo)
+health-reports/
+
+# UI test runner reports and screenshots
+ui-test-reports/

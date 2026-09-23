@@ -9,13 +9,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Running
 
-There is no build, no package manager and no test suite. To run the app, open `kanban/index.html` in a browser. It must keep working from `file://`. For FormSubmit delivery testing, serving the folder can help, for example `python3 -m http.server` from inside `kanban/`, because a `file://` page has a `null` origin.
+There is no build and no package manager. The only tests are the headless-Chrome UI harness in `.claude/ui-tests/` (see below). To run the app, open `kanban/index.html` in a browser. It must keep working from `file://`. For FormSubmit delivery testing, serving the folder can help, for example `python3 -m http.server` from inside `kanban/`, because a `file://` page has a `null` origin.
 
 Headless check from the CLI (Chrome). On macOS, `--window-size` below about 500px is clamped, so to check the mobile layout, put the page in a 390px-wide iframe:
 ```
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --screenshot=out.png --window-size=1440,1100 file://$PWD/kanban/index.html
 ```
 Syntax-check the script by extracting the `<script>` block and running `node --check` on it.
+
+For a security and health check, use the `application-health` subagent (`.claude/agents/application-health.md`). It is read-only on the app, classifies findings as critical/high/medium/low/info, and writes a timestamped JSON report to `health-reports/`, which is git-ignored so reports never reach the public repo.
+
+To test the UI, use the `ui-test-runner` subagent (`.claude/agents/ui-test-runner.md`). It runs `.claude/ui-tests/run.sh`, which injects `harness.js` into a temporary copy of the page and exercises every flow in headless Chrome (exit code 0 means all passed). It also takes desktop, tablet and phone screenshots and writes a JSON report to `ui-test-reports/`, which is git-ignored. You can run `run.sh` on its own for a quick check, or `run.sh --visible` to watch the tests run in a real Chrome window, with a live results panel and a highlight on each element. When you add a feature, add a test for it to `harness.js`.
 
 ## Hard constraints (from the original spec; do not break)
 

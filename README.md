@@ -49,6 +49,12 @@ python3 -m http.server
 # then open http://localhost:8000/
 ```
 
+### Testing
+
+`.claude/ui-tests/run.sh` runs 24 scripted UI tests against a temporary copy of `index.html` in headless Chrome. They cover add task (valid, invalid and HTML in the title), move, drag and drop, delete, filters, the two views, the overdue list, the WhatsApp widget, the help popup and basic accessibility. It prints the results as JSON and exits 0 when everything passes. Add `--visible` to watch the run in a real Chrome window, with a live results panel and a highlight on each element as it's used.
+
+For Claude Code users, two project subagents live in `.claude/agents/`. `ui-test-runner` runs these tests plus desktop, tablet and phone screenshots. `application-health` runs a security and health scan of the code, repo and live site. Both write timestamped JSON reports to git-ignored folders.
+
 ### Configuring email notifications
 
 Set `FORMSUBMIT_ENDPOINT` at the top of the `<script>` in `index.html`:
