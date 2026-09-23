@@ -6,13 +6,14 @@ A single-file IT PMO Kanban board for internal demos and training. It shows how 
 
 ## Screenshot
 
-![UOB IT PMO Board showing the four Kanban columns](docs/screenshot.png)
+![UOB IT PMO Board in timeline view, with each task plotted by due date](docs/screenshot.png)
 
 ## Features
 
-- **Four columns** (Backlog, In Progress, Blocked, Done), each colour-coded, with a short hint and a task count.
-- **Portfolio header** with summary tiles (total, per column, overdue), a status distribution bar showing each column's share of all tasks, and an "as of" date.
-- **Task cards** showing priority (text and colour), project, category, the assignee's initials, and a due-date label ("Overdue · 2d", "Due in 5d", or the date).
+- **Four colour lanes** (Backlog, In Progress, Blocked, Done), like tape on a physical kanban wall, each with a short hint and a task count.
+- **Overview** with the date, a one-line status sentence ("2 overdue, 1 due in the next 7 days, 2 blocked."), and live counts per lane and overdue.
+- **Two views, one toggle.** *Timeline* (the default) is a Gantt chart with one row per task, sorted by due date. Open tasks get a bar from today to the due date in their lane colour, overdue tasks get a red striped bar for the days past due, and Done tasks are a diamond on their due date. Weekends, week lines, the past and "Today" are marked. Clicking a task opens the *Board* view on its card. *Board* is the Kanban board with the four colour lanes. Filters apply to both views.
+- **Task cards** showing priority as text plus a four-step signal meter, project, category, the assignee's initials, and a due-date label ("2 days overdue", "Due in 5 days", or the date).
 - **Filters** by project, priority, and assignee (substring match), plus a "Clear filters" button. While filters are active, column counts show "shown / total".
 - **Drag and drop** cards between columns, with a keyboard-friendly "Move ▸" dropdown on every card as a fallback.
 - **Add Task dialog** with inline validation: title (max 80 chars), optional description (max 500), project, category, assignee, priority, due date and status. New tasks get IDs like `UOB-ITPM-0009`.
@@ -51,8 +52,8 @@ While it still holds the `YOUR_EMAIL@example.com` placeholder, no request is sen
 ## Tech and constraints
 
 - Vanilla HTML/CSS/JS in a single file (`index.html`). No frameworks, CDNs, web fonts, image files or build step.
-- Icons are Unicode characters or inline SVG, and fonts use the system font stack.
-- Responsive layout: four columns on wide screens, two below 1200px, one on phones. Animations are turned off for users who prefer reduced motion.
+- Icons are Unicode characters or inline SVG. Fonts are system fonts only: a system serif (Iowan Old Style, Charter or Georgia) for headings and numbers, and the system sans for everything else.
+- Responsive layout: four lanes on wide screens, two below 1180px, one on phones (the timeline scrolls sideways there). The dialog animation is turned off for users who prefer reduced motion.
 - Colours and spacing come from CSS custom properties on `:root`.
 - The only network call is the FormSubmit POST. The page never navigates away.
 

@@ -29,8 +29,8 @@ Syntax-check the script by extracting the `<script>` block and running `node --c
 
 ## Architecture (inside the `<script>`)
 
-- **Single source of truth:** `state = { tasks, filters }`, plus `nextId` for the `UOB-ITPM-####` IDs. UI-only render state (`pendingDelete`, `focusAfterRender`, `inFlight`) lives in `ui`.
-- **Re-render, don't mutate:** actions (`addTask`, `moveTask`, `deleteTask`) change `state` and then call `renderBoard()`. `renderBoard()` rebuilds all four columns from `STATUSES` using `renderCard()` HTML strings. Don't change card contents directly in the DOM. The only direct DOM changes are the column drop-target and dragging classes, toasts, and form error text.
+- **Single source of truth:** `state = { tasks, filters }`, plus `nextId` for the `UOB-ITPM-####` IDs. UI-only render state (`view`, `highlight`, `pendingDelete`, `focusAfterRender`, `inFlight`) lives in `ui`.
+- **Re-render, don't mutate:** actions (`addTask`, `moveTask`, `deleteTask`) change `state` and then call `renderBoard()`. `renderBoard()` rebuilds all four columns from `STATUSES` using `renderCard()` HTML strings, then `renderSummary()`, which also rebuilds the Gantt timeline view (`renderTimeline()`). `applyView()` shows either the timeline or the board, based on `ui.view`. Don't change card contents directly in the DOM. The only direct DOM changes are the column drop-target and dragging classes, toasts, and form error text.
 - **Escaping:** every interpolated value in the HTML strings must go through `escapeHtml()`.
 - **Event delegation:** all card interactions (drag and drop, `data-action` buttons, the `.move-select` keyboard fallback) are delegated on `#board`, because cards are recreated on every render. To keep keyboard focus across re-renders, set `ui.focusAfterRender` to a selector before calling `renderBoard()`.
 - **Dates:** use `toLocalISO()`, `todayISO()` and `addDays()`, which build `YYYY-MM-DD` from local date parts. Don't use `toISOString()`, because it is UTC and shifts dates by a day. Overdue means `dueDate < today && status !== "Done"`. Seed due dates are relative to today, so the demo always shows overdue cards.

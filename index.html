@@ -6,60 +6,76 @@
 <title>UOB IT PMO Board</title>
 <style>
   /* ==========================================================
-     1. Design tokens (palette, spacing, type)
+     1. Design tokens
+     Concept: a physical kanban wall. Four solid colour lanes carry
+     the board's colour; everything around them stays quiet. The one
+     bold element above the board is the delivery timeline.
      ========================================================== */
   :root {
-    /* Brand: deep corporate navy to signal blue */
-    --navy-950: #061528;
-    --navy-900: #0a1f3a;
-    --navy-800: #102c52;
-    --blue-700: #1848a8;
-    --blue-600: #1f5fd1;
-    --blue-500: #3b7be8;
-    --blue-200: #c9daf8;
-    --blue-100: #e3ecfb;
-    --blue-50:  #f2f6fd;
+    /* Core palette */
+    --harbour:   #0f2740;   /* ink, top bar */
+    --porcelain: #f2f5f9;   /* page */
+    --paper:     #ffffff;   /* cards, sheets */
+    --signal:    #c9372c;   /* overdue, critical */
+
+    /* Lane colours (status) */
+    --lane-backlog:     #4a5584;  /* slate indigo */
+    --lane-in-progress: #1a5fa8;  /* straits blue */
+    --lane-blocked:     #e5a823;  /* saffron */
+    --lane-done:        #1f7e58;  /* jade */
+    --lane-ink-light:   #ffffff;
+    --lane-ink-dark:    #2a1f00;
+    --lane-sub-light:   rgba(255, 255, 255, .78);
+    --lane-sub-dark:    rgba(42, 31, 0, .72);
+    --lane-chip-light:  rgba(255, 255, 255, .18);
+    --lane-chip-dark:   rgba(42, 31, 0, .12);
+    --lane-drop:        rgba(255, 255, 255, .9);
 
     /* Neutrals */
-    --ink:      #0f1a2a;
-    --ink-2:    #3d4a5c;
-    --ink-3:    #647085;
-    --ink-4:    #8a95a8;
-    --line:     #dfe4ec;
-    --line-2:   #eaeef4;
-    --surface:  #ffffff;
-    --surface-2:#f7f9fc;
-    --page:     #eff2f7;
-    --on-dark:  #ffffff;
-    --on-dark-2: rgba(255, 255, 255, .72);
-    --on-dark-line: rgba(255, 255, 255, .14);
+    --ink:     #0f2740;
+    --ink-2:   #44566c;
+    --ink-3:   #6a7a8e;
+    --rule:    #dbe2ea;
+    --rule-2:  #e9eef3;
+    --wash:    #f6f8fb;
+    --on-dark: #ffffff;
+    --on-dark-2: rgba(255, 255, 255, .7);
+    --on-dark-rule: rgba(255, 255, 255, .16);
 
-    /* Priority (always paired with a text label) */
-    --p-critical:    #c4262e;
-    --p-critical-bg: #fdecec;
-    --p-high:        #b8620a;
-    --p-high-bg:     #fdf1e3;
-    --p-medium:      #1f5fd1;
-    --p-medium-bg:   #e8f0fd;
-    --p-low:         #5f6b7e;
-    --p-low-bg:      #eef1f5;
+    /* Priority meter */
+    --p-critical: #c9372c;
+    --p-high:     #d9822b;
+    --p-medium:   #1a5fa8;
+    --p-low:      #7b8798;
+    --meter-off:  #dde3ea;
 
-    /* Workflow status */
-    --s-backlog:     #6b7a90;
-    --s-in-progress: #1f5fd1;
-    --s-blocked:     #d0661a;
-    --s-done:        #16895a;
+    /* Feedback */
+    --ok:        #1f7e58;
+    --warn-ink:  #9a5a00;
+    --warn-bg:   #fff4dc;
+    --error:     #c9372c;
+    --error-bg:  #fdeceb;
+    --error-rule:#f3c3bf;
+    --danger-hover: #a92b22;
+    --overdue-zone: rgba(201, 55, 44, .07);
+    --weekend: rgba(15, 39, 64, .035);
+    --bar-edge: rgba(0, 0, 0, .15);
+    --late-stripes: repeating-linear-gradient(-45deg, #c9372c 0 6px, #e0574b 6px 12px);
 
-    --ok:    #16895a;
-    --warn:  #b8620a;
-    --error: #c4262e;
+    /* Avatars: muted, lane-compatible */
+    --av-0: #1a5fa8; --av-1: #4a5584; --av-2: #1f7e58;
+    --av-3: #9a5a00; --av-4: #7a3d8f; --av-5: #0f6f7a;
+    --av-bg: #eef2f7;
 
-    /* Avatar tints */
-    --av-0: #1f5fd1; --av-1: #0f8a8a; --av-2: #7247c9;
-    --av-3: #b8620a; --av-4: #16895a; --av-5: #c0356b;
+    --focus: #2f80ed;
+    --backdrop: rgba(15, 39, 64, .55);
+    --shadow-card: 0 1px 0 rgba(15, 39, 64, .06), 0 2px 6px rgba(15, 39, 64, .14);
+    --shadow-sheet: 0 1px 2px rgba(15, 39, 64, .06);
+    --shadow-lg: 0 24px 60px rgba(15, 39, 64, .3);
 
-    --focus: #3b7be8;
-    --focus-ring: 0 0 0 3px rgba(59, 123, 232, .35);
+    /* Type: a bookish serif for names and numbers, system sans for work */
+    --serif: "Iowan Old Style", "Charter", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
     --space-1: 4px;
     --space-2: 8px;
@@ -69,41 +85,12 @@
     --space-6: 32px;
     --space-7: 48px;
 
-    --radius-lg: 12px;
-    --radius:    8px;
-    --radius-sm: 6px;
-    --radius-xs: 4px;
-    --shadow-xs: 0 1px 1px rgba(10, 31, 58, .04);
-    --shadow:    0 1px 2px rgba(10, 31, 58, .06), 0 1px 3px rgba(10, 31, 58, .05);
-    --shadow-md: 0 4px 12px rgba(10, 31, 58, .08), 0 1px 3px rgba(10, 31, 58, .06);
-    --shadow-lg: 0 24px 48px rgba(6, 21, 40, .28), 0 4px 12px rgba(6, 21, 40, .12);
-
-    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
-    --container: 1600px;
-
-    /* Derived tints (dark header, borders, overlays) */
-    --danger-hover:   #a31f26;
-    --danger-line:    #f6c6c8;
-    --warn-line:      #f5d9b5;
-    --danger-ring:    rgba(196, 38, 46, .2);
-    --drop-ring:      rgba(59, 123, 232, .18);
-    --env-fg:         #ffd58a;
-    --env-bg:         rgba(255, 190, 80, .12);
-    --env-line:       rgba(255, 190, 80, .3);
-    --on-dark-fill-1: rgba(255, 255, 255, .04);
-    --on-dark-fill-2: rgba(255, 255, 255, .05);
-    --on-dark-fill-3: rgba(255, 255, 255, .08);
-    --on-dark-hi:     rgba(255, 255, 255, .2);
-    --accent-shadow:  rgba(6, 21, 40, .35);
-    --done-bright:    #2fb57a;
-    --alert-bright:   #ff6b6b;
-    --alert-soft:     #ffb4b4;
-    --alert-fill:     rgba(255, 90, 90, .12);
-    --alert-line:     rgba(255, 120, 120, .35);
-    --warn-bright:    #f0a040;
-    --backdrop:       rgba(6, 21, 40, .6);
-    --mask:           #000;
+    /* Radius follows hierarchy: lane > sheet > card > chip */
+    --radius-lane: 16px;
+    --radius-sheet: 12px;
+    --radius-card: 8px;
+    --radius-chip: 4px;
+    --container: 1560px;
   }
 
   /* ==========================================================
@@ -114,17 +101,13 @@
   body {
     font-family: var(--font);
     font-size: 14px;
-    line-height: 1.45;
+    line-height: 1.5;
     color: var(--ink);
-    background: var(--page);
+    background: var(--porcelain);
     -webkit-font-smoothing: antialiased;
-    font-feature-settings: "tnum" 1;
   }
   button, input, select, textarea { font: inherit; color: inherit; }
-  :focus-visible {
-    outline: 2px solid var(--focus);
-    outline-offset: 2px;
-  }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
   .visually-hidden {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
@@ -137,391 +120,354 @@
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
     height: 36px; padding: 0 var(--space-4);
-    border: 1px solid var(--line); border-radius: var(--radius-sm);
-    background: var(--surface); color: var(--ink-2);
-    font-weight: 600; font-size: 13px; white-space: nowrap; cursor: pointer;
-    box-shadow: var(--shadow-xs);
-    transition: background-color .12s, border-color .12s, color .12s, box-shadow .12s;
+    border: 1px solid var(--rule); border-radius: var(--radius-card);
+    background: var(--paper); color: var(--ink);
+    font-weight: 600; font-size: 13.5px; white-space: nowrap; cursor: pointer;
   }
-  .btn:hover { background: var(--surface-2); border-color: var(--ink-4); color: var(--ink); }
+  .btn:hover { background: var(--wash); border-color: var(--ink-3); }
   .btn svg { width: 16px; height: 16px; flex: none; }
-  .btn-primary { background: var(--blue-600); color: var(--on-dark); border-color: var(--blue-600); }
-  .btn-primary:hover { background: var(--blue-700); border-color: var(--blue-700); color: var(--on-dark); }
-  .btn-accent {
-    background: var(--blue-500); color: var(--on-dark); border-color: var(--blue-500);
-    box-shadow: 0 1px 0 var(--on-dark-hi) inset, 0 2px 8px var(--accent-shadow);
-  }
-  .btn-accent:hover { background: var(--blue-600); border-color: var(--blue-600); color: var(--on-dark); }
-  .btn-ghost { background: transparent; border-color: transparent; box-shadow: none; color: var(--ink-3); }
-  .btn-ghost:hover { background: var(--line-2); border-color: transparent; color: var(--ink); }
+  .btn-primary { background: var(--lane-in-progress); color: var(--on-dark); border-color: var(--lane-in-progress); }
+  .btn-primary:hover { background: var(--harbour); border-color: var(--harbour); }
+  .btn-add { background: var(--lane-blocked); color: var(--lane-ink-dark); border-color: var(--lane-blocked); }
+  .btn-add:hover { background: var(--paper); border-color: var(--paper); }
+  .btn-quiet { background: transparent; border-color: transparent; color: var(--ink-2); }
+  .btn-quiet:hover { background: var(--rule-2); border-color: transparent; }
   .btn[disabled] { opacity: .6; cursor: not-allowed; }
   .btn-sm { height: 26px; padding: 0 var(--space-3); font-size: 12px; }
-  .btn-danger { background: var(--p-critical); color: var(--on-dark); border-color: var(--p-critical); }
-  .btn-danger:hover { background: var(--danger-hover); border-color: var(--danger-hover); color: var(--on-dark); }
+  .btn-danger { background: var(--signal); color: var(--on-dark); border-color: var(--signal); }
+  .btn-danger:hover { background: var(--danger-hover); border-color: var(--danger-hover); }
 
   .icon-btn {
     border: 0; background: transparent; cursor: pointer;
-    width: 28px; height: 28px; border-radius: var(--radius-xs);
-    display: inline-grid; place-items: center;
-    color: var(--ink-4); line-height: 1;
-    transition: background-color .12s, color .12s;
+    width: 28px; height: 28px; border-radius: var(--radius-chip);
+    display: inline-grid; place-items: center; color: var(--ink-3);
   }
-  .icon-btn svg { width: 16px; height: 16px; }
-  .icon-btn:hover { background: var(--line-2); color: var(--ink); }
+  .icon-btn svg { width: 15px; height: 15px; }
+  .icon-btn:hover { background: var(--rule-2); color: var(--ink); }
 
   input[type="text"], input[type="date"], input[type="search"], select, textarea {
     width: 100%; height: 36px;
-    border: 1px solid var(--line); border-radius: var(--radius-sm);
+    border: 1px solid var(--rule); border-radius: var(--radius-card);
     padding: 0 var(--space-3);
-    background: var(--surface);
-    box-shadow: var(--shadow-xs);
-    transition: border-color .12s, box-shadow .12s;
+    background: var(--paper); color: var(--ink);
   }
   textarea { height: auto; padding: var(--space-2) var(--space-3); resize: vertical; min-height: 92px; }
-  input:hover, select:hover, textarea:hover { border-color: var(--ink-4); }
-  input:focus-visible, select:focus-visible, textarea:focus-visible {
-    outline: none; border-color: var(--focus); box-shadow: var(--focus-ring);
-  }
-  [aria-invalid="true"] { border-color: var(--error); }
-  [aria-invalid="true"]:focus-visible { box-shadow: 0 0 0 3px var(--danger-ring); }
+  input:hover, select:hover, textarea:hover { border-color: var(--ink-3); }
+  [aria-invalid="true"] { border-color: var(--error); background: var(--error-bg); }
 
   /* ==========================================================
-     4. App bar (global navigation chrome)
+     4. Top bar
      ========================================================== */
-  .appbar {
-    background: var(--navy-950);
-    color: var(--on-dark);
-    border-bottom: 1px solid var(--navy-800);
-    position: sticky; top: 0; z-index: 20;
-  }
-  .appbar .container {
-    display: flex; align-items: center; gap: var(--space-4);
-    min-height: 56px;
-  }
-  .brand { display: flex; align-items: center; gap: var(--space-3); min-width: 0; }
-  .brand-mark { width: 30px; height: 30px; flex: none; display: block; }
-  .wordmark {
-    margin: 0; font-size: 15px; font-weight: 700; letter-spacing: .04em; white-space: nowrap;
-  }
-  .brand-divider { width: 1px; height: 20px; background: var(--on-dark-line); }
-  .brand-product { font-size: 14px; color: var(--on-dark-2); white-space: nowrap; }
+  .topbar { background: var(--harbour); color: var(--on-dark); }
+  .topbar .container { display: flex; align-items: center; gap: var(--space-4); min-height: 56px; }
+  .wordmark { margin: 0; font-weight: 700; font-size: 15px; letter-spacing: .03em; white-space: nowrap; }
+  .product { color: var(--on-dark-2); padding-left: var(--space-4); border-left: 1px solid var(--on-dark-rule); white-space: nowrap; }
   .env-badge {
-    font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-    padding: 3px var(--space-2); border-radius: var(--radius-xs);
-    color: var(--env-fg); background: var(--env-bg); border: 1px solid var(--env-line);
-    white-space: nowrap;
+    font-size: 12px; font-weight: 600; color: var(--on-dark-2);
+    border: 1px solid var(--on-dark-rule); border-radius: 999px; padding: 1px var(--space-2);
   }
-  .appbar-actions { margin-left: auto; display: flex; align-items: center; gap: var(--space-3); }
-  .sending-indicator {
-    display: inline-flex; align-items: center; gap: var(--space-2);
-    font-size: 12px; color: var(--on-dark-2);
-  }
+  .topbar-actions { margin-left: auto; display: flex; align-items: center; gap: var(--space-3); }
+  .sending-indicator { font-size: 12.5px; color: var(--on-dark-2); }
   .sending-indicator[hidden] { display: none; }
-  .spinner {
-    width: 12px; height: 12px; border-radius: 50%;
-    border: 2px solid var(--on-dark-line); border-top-color: var(--on-dark);
-    animation: spin .8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
 
   /* ==========================================================
-     5. Portfolio header: title, KPI tiles, distribution bar
+     5. Overview sheet: title, status sentence, legend, timeline
      ========================================================== */
-  .page-head {
-    background:
-      linear-gradient(180deg, var(--navy-900) 0, var(--navy-800) 100%);
-    color: var(--on-dark);
-    padding: var(--space-6) 0 var(--space-7);
-    position: relative; overflow: hidden;
+  .overview {
+    background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-sheet);
+    box-shadow: var(--shadow-sheet);
+    margin: var(--space-5) 0 var(--space-4);
+    padding: var(--space-5) var(--space-5) var(--space-4);
   }
-  /* subtle engineering grid, pure CSS */
-  .page-head::before {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background-image:
-      linear-gradient(var(--on-dark-line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--on-dark-line) 1px, transparent 1px);
-    background-size: 32px 32px;
-    opacity: .35;
-    mask-image: linear-gradient(100deg, transparent 35%, var(--mask) 100%);
-    -webkit-mask-image: linear-gradient(100deg, transparent 35%, var(--mask) 100%);
-  }
-  .page-head .container { position: relative; }
-  .eyebrow {
-    margin: 0 0 var(--space-2); font-size: 11px; font-weight: 700;
-    letter-spacing: .12em; text-transform: uppercase; color: var(--blue-200);
-  }
-  .title-row { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
-  .page-title { margin: 0; font-size: 28px; line-height: 1.15; font-weight: 700; letter-spacing: -.01em; }
-  .as-of { margin: var(--space-2) 0 0; font-size: 13px; color: var(--on-dark-2); }
-  .demo-note {
-    display: flex; align-items: center; gap: var(--space-2);
-    margin: 0; padding: var(--space-2) var(--space-3);
-    font-size: 12px; color: var(--on-dark-2);
-    border: 1px solid var(--on-dark-line); border-radius: var(--radius-sm);
-    background: var(--on-dark-fill-1); max-width: 520px;
-  }
-  .demo-note svg { width: 14px; height: 14px; flex: none; }
+  .overview-head { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-5); flex-wrap: wrap; }
+  .page-title { margin: 0; font-family: var(--serif); font-size: 40px; line-height: 1.05; font-weight: 600; letter-spacing: -.01em; }
+  .as-of { margin: var(--space-2) 0 0; color: var(--ink-3); }
+  .board-status { margin: var(--space-1) 0 0; font-family: var(--serif); font-size: 19px; color: var(--ink); }
+  .demo-note { margin: var(--space-2) 0 0; font-size: 12.5px; color: var(--ink-3); max-width: 72ch; }
 
-  .summary {
-    display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: var(--space-3); margin: var(--space-5) 0 0; padding: 0;
-  }
-  .kpi {
-    --kpi-color: var(--blue-200);
-    position: relative;
-    background: var(--on-dark-fill-2);
-    border: 1px solid var(--on-dark-line);
-    border-radius: var(--radius);
-    padding: var(--space-3) var(--space-4) var(--space-3);
-    display: flex; flex-direction: column-reverse; gap: var(--space-1);
-  }
-  .kpi dt { font-size: 12px; color: var(--on-dark-2); display: flex; align-items: center; gap: var(--space-2); }
-  .kpi dt::before {
-    content: ""; width: 8px; height: 8px; border-radius: 2px; flex: none; background: var(--kpi-color);
-  }
-  .kpi dd { margin: 0; font-size: 26px; font-weight: 700; line-height: 1.1; letter-spacing: -.01em; }
-  .kpi.k-backlog     { --kpi-color: var(--s-backlog); }
-  .kpi.k-in-progress { --kpi-color: var(--blue-500); }
-  .kpi.k-blocked     { --kpi-color: var(--s-blocked); }
-  .kpi.k-done        { --kpi-color: var(--done-bright); }
-  .kpi.k-overdue     { --kpi-color: var(--alert-bright); background: var(--alert-fill); border-color: var(--alert-line); }
-  .kpi.k-overdue dd  { color: var(--alert-soft); }
-
-  .dist { margin-top: var(--space-4); }
-  .dist-bar {
-    display: flex; height: 8px; border-radius: 999px; overflow: hidden;
-    background: var(--on-dark-fill-3); gap: 2px;
-  }
-  .dist-seg { height: 100%; transition: flex-grow .3s ease; min-width: 0; }
-  .dist-legend {
-    display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4);
-    margin: var(--space-2) 0 0; padding: 0; list-style: none;
-    font-size: 12px; color: var(--on-dark-2);
-  }
-  .dist-legend li { display: inline-flex; align-items: center; gap: 6px; }
-  .dist-legend b { color: var(--on-dark); font-weight: 600; }
-  .seg-backlog     { background: var(--s-backlog); }
-  .seg-in-progress { background: var(--blue-500); }
-  .seg-blocked     { background: var(--s-blocked); }
-  .seg-done        { background: var(--done-bright); }
-  .swatch { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+  .summary { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); margin: 0; }
+  .summary div { display: flex; flex-direction: column-reverse; }
+  .summary dt { font-size: 12.5px; color: var(--ink-2); display: flex; align-items: center; gap: 6px; }
+  .summary dt::before { content: ""; width: 10px; height: 10px; border-radius: 2px; background: var(--key, var(--ink)); }
+  .summary dd { margin: 0; font-family: var(--serif); font-size: 30px; line-height: 1.1; font-variant-numeric: lining-nums tabular-nums; }
+  .summary .k-backlog     { --key: var(--lane-backlog); }
+  .summary .k-in-progress { --key: var(--lane-in-progress); }
+  .summary .k-blocked     { --key: var(--lane-blocked); }
+  .summary .k-done        { --key: var(--lane-done); }
+  .summary .k-overdue     { --key: var(--signal); }
+  .summary .k-overdue dd  { color: var(--signal); }
+  .summary .k-total       { padding-right: var(--space-5); border-right: 1px solid var(--rule); }
+  .summary .k-total dt::before { display: none; }
 
   /* ==========================================================
-     6. Toolbar / filter bar
+     6. Filters
      ========================================================== */
-  main { padding: 0 0 var(--space-7); }
   .filters {
     display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3) var(--space-4);
-    background: var(--surface); border: 1px solid var(--line);
-    border-radius: var(--radius-lg); padding: var(--space-3) var(--space-4);
-    margin: calc(-1 * var(--space-6)) 0 var(--space-5);
-    box-shadow: var(--shadow-md);
-    position: relative;
+    margin-bottom: var(--space-4);
   }
-  .filters-title {
-    align-self: center; display: flex; align-items: center; gap: var(--space-2);
-    font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3);
-    padding-right: var(--space-4); border-right: 1px solid var(--line); height: 36px; margin: 0;
+  .filters .field { display: flex; flex-direction: column; gap: var(--space-1); flex: 0 1 240px; min-width: 180px; }
+
+  /* Timeline / Board switch */
+  .view-toggle {
+    margin-left: auto; display: inline-flex; padding: 3px; gap: 2px;
+    background: var(--rule-2); border-radius: 10px;
   }
-  .filters-title svg { width: 16px; height: 16px; }
-  .filters .field { display: flex; flex-direction: column; gap: var(--space-1); min-width: 180px; flex: 1 1 200px; }
-  .filters label { font-size: 12px; font-weight: 600; color: var(--ink-3); }
-  .filters .btn { flex: 0 0 auto; }
-  .search-wrap { position: relative; }
-  .search-wrap svg {
-    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-    width: 15px; height: 15px; color: var(--ink-4); pointer-events: none;
+  .seg {
+    height: 32px; padding: 0 var(--space-4); border: 0; border-radius: var(--radius-card);
+    background: transparent; color: var(--ink-2); font-weight: 600; cursor: pointer;
+    display: inline-flex; align-items: center; gap: var(--space-2);
   }
-  .search-wrap input { padding-left: 32px; }
+  .seg svg { width: 16px; height: 16px; }
+  .seg:hover { color: var(--ink); }
+  .seg[aria-pressed="true"] { background: var(--paper); color: var(--ink); box-shadow: var(--shadow-sheet), 0 0 0 1px var(--rule); }
 
   /* ==========================================================
-     7. Board & columns
+     6b. Timeline view (Gantt)
      ========================================================== */
-  .board {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--space-4);
-    align-items: start;
+  .board[hidden], .gantt-view[hidden] { display: none; }
+  .gantt-view {
+    background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-sheet);
+    box-shadow: var(--shadow-sheet); overflow-x: auto;
   }
+  .gantt { --label-w: 340px; min-width: 900px; }
+  .g-legend {
+    display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-5);
+    padding: var(--space-3) var(--space-5); border-bottom: 1px solid var(--rule-2);
+    font-size: 12.5px; color: var(--ink-2);
+  }
+  .g-legend span { display: inline-flex; align-items: center; gap: var(--space-2); }
+  .g-key { width: 22px; height: 10px; border-radius: 3px; background: var(--key); }
+  .g-key.is-late { background: var(--late-stripes); }
+  .g-key.is-milestone { width: 10px; height: 10px; border-radius: 1px; transform: rotate(45deg); background: var(--lane-done); }
+
+  .g-head { display: grid; grid-template-columns: var(--label-w) 1fr; border-bottom: 1px solid var(--rule); }
+  .g-head-label { padding: var(--space-3) var(--space-5); font-size: 12.5px; font-weight: 600; color: var(--ink-3); position: sticky; left: 0; z-index: 2; background: var(--paper); border-right: 1px solid var(--rule); }
+  .g-axis { position: relative; height: 40px; }
+  .g-axis-label {
+    position: absolute; top: 50%; transform: translate(6px, -50%);
+    font-size: 12px; color: var(--ink-3); white-space: nowrap;
+  }
+  .g-axis-label.is-today { transform: translate(-50%, -50%); color: var(--paper); background: var(--harbour); font-weight: 700; padding: 2px var(--space-2); border-radius: 999px; }
+
+  .g-body { position: relative; }
+  .g-grid { position: absolute; top: 0; bottom: 0; left: var(--label-w); right: 0; pointer-events: none; }
+  .g-past { position: absolute; top: 0; bottom: 0; left: 0; background: var(--overdue-zone); }
+  .g-weekend { position: absolute; top: 0; bottom: 0; background: var(--weekend); }
+  .g-week { position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--rule-2); }
+  .g-today { position: absolute; top: 0; bottom: 0; border-left: 2px solid var(--harbour); }
+
+  .g-row {
+    --prio: var(--p-medium);
+    position: relative;
+    display: grid; grid-template-columns: var(--label-w) 1fr; min-height: 64px;
+    border-bottom: 1px solid var(--rule-2);
+  }
+  .g-row:last-child { border-bottom: 0; }
+  .g-row.prio-critical { --prio: var(--p-critical); }
+  .g-row.prio-high     { --prio: var(--p-high); }
+  .g-row.prio-low      { --prio: var(--p-low); }
+  .g-task {
+    padding: var(--space-2) var(--space-4) var(--space-2) var(--space-5);
+    border-right: 1px solid var(--rule); background: var(--paper);
+    display: flex; flex-direction: column; justify-content: center; gap: 3px; min-width: 0;
+    position: sticky; left: 0; z-index: 2;
+  }
+  .g-open {
+    border: 0; background: none; padding: 0; text-align: left; cursor: pointer;
+    font-size: 14px; font-weight: 650; color: var(--ink);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%;
+  }
+  .g-open:hover { color: var(--lane-in-progress); text-decoration: underline; text-underline-offset: 3px; }
+  .g-meta { display: flex; align-items: center; gap: var(--space-3); font-size: 12px; color: var(--ink-3); white-space: nowrap; overflow: hidden; }
+  .g-status { display: inline-flex; align-items: center; gap: 5px; color: var(--ink-2); font-weight: 600; }
+  .g-status::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--key); }
+  .st-backlog     { --key: var(--lane-backlog); }
+  .st-in-progress { --key: var(--lane-in-progress); }
+  .st-blocked     { --key: var(--lane-blocked); }
+  .st-done        { --key: var(--lane-done); }
+  .g-meta .prio { font-size: 12px; }
+
+  .g-track { position: relative; }
+  .g-bar {
+    position: absolute; top: 50%; height: 18px; transform: translateY(-50%);
+    border-radius: 5px; background: var(--key); min-width: 6px;
+    box-shadow: inset 0 -2px 0 var(--bar-edge);
+  }
+  .g-bar.is-late { background: var(--late-stripes); }
+  .g-milestone {
+    position: absolute; top: 50%; width: 14px; height: 14px; margin-left: -7px;
+    transform: translateY(-50%) rotate(45deg); background: var(--lane-done); border-radius: 2px;
+  }
+  .g-label {
+    position: absolute; top: 50%; transform: translate(10px, -50%);
+    font-size: 12.5px; font-weight: 600; color: var(--ink-2); white-space: nowrap;
+  }
+  .g-label.is-before { transform: translate(calc(-100% - 10px), -50%); }
+  .g-label.is-overdue { color: var(--signal); }
+  .g-label.is-soon { color: var(--warn-ink); }
+  .g-label.is-done { color: var(--ok); }
+  .gantt-empty { margin: 0; padding: var(--space-7) var(--space-5); text-align: center; color: var(--ink-3); }
+
+  /* Card picked from the timeline: one short flash so the eye finds it */
+  .card.is-highlight { animation: pick 1.4s ease-out; }
+  @keyframes pick {
+    0%, 40% { box-shadow: 0 0 0 4px var(--lane-blocked), var(--shadow-card); }
+    100% { box-shadow: var(--shadow-card); }
+  }
+
+  .filters label { font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
+
+  /* ==========================================================
+     7. Lanes (columns)
+     ========================================================== */
+  main { padding-bottom: var(--space-7); }
+  .board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); align-items: start; }
   .column {
-    --status-color: var(--s-backlog);
-    background: var(--surface-2);
-    border: 1px solid var(--line);
-    border-top: 3px solid var(--status-color);
-    border-radius: var(--radius-lg);
-    display: flex; flex-direction: column;
-    min-height: 320px;
-    transition: background-color .12s, border-color .12s, box-shadow .12s;
+    --lane: var(--lane-backlog);
+    --lane-ink: var(--lane-ink-light);
+    --lane-sub: var(--lane-sub-light);
+    --lane-chip: var(--lane-chip-light);
+    background: var(--lane); color: var(--lane-ink);
+    border-radius: var(--radius-lane);
+    display: flex; flex-direction: column; min-height: 440px;
+    padding: 0 var(--space-3) var(--space-3);
+    outline: 3px dashed transparent; outline-offset: -8px;
   }
-  .column.st-in-progress { --status-color: var(--s-in-progress); }
-  .column.st-blocked     { --status-color: var(--s-blocked); }
-  .column.st-done        { --status-color: var(--s-done); }
-  .column.is-drop-target {
-    background: var(--blue-50);
-    border-color: var(--blue-500);
-    border-top-color: var(--status-color);
-    box-shadow: 0 0 0 3px var(--drop-ring);
+  .column.st-in-progress { --lane: var(--lane-in-progress); }
+  .column.st-done        { --lane: var(--lane-done); }
+  .column.st-blocked {
+    --lane: var(--lane-blocked);
+    --lane-ink: var(--lane-ink-dark);
+    --lane-sub: var(--lane-sub-dark);
+    --lane-chip: var(--lane-chip-dark);
   }
-  .column.is-drop-target .card-list {
-    outline: 2px dashed var(--blue-200); outline-offset: -6px; border-radius: var(--radius);
-  }
+  .column.is-drop-target { outline-color: var(--lane-drop); }
   .column-header {
     display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3);
-    padding: var(--space-3) var(--space-4) var(--space-3);
-    border-bottom: 1px solid var(--line-2);
+    padding: var(--space-4) var(--space-2) var(--space-3);
   }
-  .column-header h2 {
-    margin: 0; font-size: 13px; font-weight: 700; color: var(--ink);
-    letter-spacing: .02em; text-transform: uppercase;
-    display: flex; align-items: center; gap: var(--space-2);
-  }
-  .status-dot {
-    width: 8px; height: 8px; border-radius: 50%; background: var(--status-color);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--status-color) 18%, transparent);
-  }
-  .column-hint { margin: var(--space-1) 0 0; font-size: 12px; color: var(--ink-3); font-weight: 400; }
+  .column-header h2 { margin: 0; font-family: var(--serif); font-size: 22px; font-weight: 600; line-height: 1.15; }
+  .column-hint { margin: 2px 0 0; font-size: 12.5px; color: var(--lane-sub); }
   .count-badge {
-    background: var(--surface); color: var(--ink-2);
-    border: 1px solid var(--line);
-    border-radius: 999px; padding: 1px var(--space-2);
-    font-size: 12px; font-weight: 700; min-width: 28px; text-align: center;
-    font-variant-numeric: tabular-nums;
+    font-family: var(--serif); font-size: 26px; line-height: 1; font-variant-numeric: lining-nums tabular-nums;
+    background: var(--lane-chip); border-radius: var(--radius-card);
+    min-width: 44px; padding: 7px var(--space-2); text-align: center;
   }
-  .card-list {
-    display: flex; flex-direction: column; gap: var(--space-3);
-    padding: var(--space-3); flex: 1;
-  }
+  .card-list { display: flex; flex-direction: column; gap: var(--space-2); flex: 1; }
   .empty {
-    color: var(--ink-4); font-size: 12px; text-align: center;
-    padding: var(--space-6) var(--space-3); margin: 0;
-    border: 1px dashed var(--line); border-radius: var(--radius);
+    margin: 0; padding: var(--space-6) var(--space-3); text-align: center;
+    font-size: 12.5px; color: var(--lane-sub);
+    border: 1px dashed var(--lane-sub); border-radius: var(--radius-card);
   }
 
   /* ==========================================================
-     8. Cards
+     8. Cards (white index cards on the lane)
      ========================================================== */
   .card {
-    --prio-color: var(--p-medium);
-    --prio-bg: var(--p-medium-bg);
-    position: relative;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: var(--space-3) var(--space-3) 0 var(--space-4);
-    box-shadow: var(--shadow);
+    --prio: var(--p-medium);
+    background: var(--paper); color: var(--ink);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: var(--space-3) var(--space-3) 0;
     cursor: grab;
-    transition: box-shadow .15s, border-color .15s, transform .15s;
   }
-  .card::before {
-    content: ""; position: absolute; left: -1px; top: 10px; bottom: 10px; width: 3px;
-    border-radius: 0 3px 3px 0; background: var(--prio-color);
-  }
-  .card:hover { box-shadow: var(--shadow-md); border-color: var(--blue-200); transform: translateY(-1px); }
-  .card.prio-critical { --prio-color: var(--p-critical); --prio-bg: var(--p-critical-bg); }
-  .card.prio-high     { --prio-color: var(--p-high);     --prio-bg: var(--p-high-bg); }
-  .card.prio-medium   { --prio-color: var(--p-medium);   --prio-bg: var(--p-medium-bg); }
-  .card.prio-low      { --prio-color: var(--p-low);      --prio-bg: var(--p-low-bg); }
-  .card.is-dragging { opacity: .45; transform: rotate(1.5deg); }
-  .card.is-done .card-title { color: var(--ink-3); }
+  .card.prio-critical { --prio: var(--p-critical); }
+  .card.prio-high     { --prio: var(--p-high); }
+  .card.prio-medium   { --prio: var(--p-medium); }
+  .card.prio-low      { --prio: var(--p-low); }
+  .card.is-dragging { opacity: .5; }
 
-  .card-top { display: flex; align-items: center; gap: var(--space-2); }
-  .card-id { font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: .02em; }
-  .card-top .icon-btn { margin-left: auto; margin-right: calc(-1 * var(--space-1)); }
-  .card-title {
-    margin: var(--space-2) 0 var(--space-1); font-size: 14px; font-weight: 600;
-    line-height: 1.35; overflow-wrap: anywhere; color: var(--ink);
-  }
+  .card-head { display: flex; align-items: center; gap: var(--space-2); }
+  .prio { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--prio); }
+  .prio-meter { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+  .prio-meter i { width: 3px; border-radius: 1px; background: var(--meter-off); }
+  .prio-meter i:nth-child(1) { height: 4px; }
+  .prio-meter i:nth-child(2) { height: 7px; }
+  .prio-meter i:nth-child(3) { height: 10px; }
+  .prio-meter i:nth-child(4) { height: 12px; }
+  .lvl-1 i:nth-child(-n+1), .lvl-2 i:nth-child(-n+2),
+  .lvl-3 i:nth-child(-n+3), .lvl-4 i:nth-child(-n+4) { background: var(--prio); }
+  .card-id { font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; margin-left: auto; }
+  .card-head .icon-btn { margin-right: calc(-1 * var(--space-1)); }
+
+  .card-title { margin: var(--space-2) 0 var(--space-1); font-size: 15px; font-weight: 650; line-height: 1.35; overflow-wrap: anywhere; }
+  .card.is-done .card-title { color: var(--ink-2); }
   .card-desc {
-    margin: 0 0 var(--space-3); color: var(--ink-3); font-size: 12.5px; overflow-wrap: anywhere;
+    margin: 0 0 var(--space-3); color: var(--ink-2); font-size: 13px; overflow-wrap: anywhere;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
-  .card-meta {
-    margin: 0 0 var(--space-3); display: grid; grid-template-columns: auto 1fr;
-    gap: var(--space-1) var(--space-3); font-size: 12px;
-  }
-  .card-meta dt { color: var(--ink-4); }
-  .card-meta dd { margin: 0; color: var(--ink-2); overflow-wrap: anywhere; }
+  .card-meta { margin: 0 0 var(--space-2); display: grid; grid-template-columns: auto 1fr; gap: 2px var(--space-3); font-size: 12.5px; }
+  .card-meta dt { color: var(--ink-3); }
+  .card-meta dd { margin: 0; overflow-wrap: anywhere; }
 
-  .pill, .tag, .due {
-    display: inline-flex; align-items: center; gap: 5px;
-    border-radius: var(--radius-xs); padding: 2px 7px;
-    font-size: 11px; font-weight: 600; white-space: nowrap; line-height: 1.4;
+  .due {
+    display: inline-flex; align-items: center; gap: 6px; margin: 0 0 var(--space-3);
+    font-size: 12.5px; font-weight: 600; color: var(--ink-2);
   }
-  .pill { color: var(--prio-color); background: var(--prio-bg); }
-  .pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-  .tag { background: var(--line-2); color: var(--ink-2); }
-  .due { background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line-2); }
-  .due svg { width: 12px; height: 12px; }
-  .due.is-overdue { background: var(--p-critical-bg); color: var(--p-critical); border-color: var(--danger-line); }
-  .due.is-soon { background: var(--p-high-bg); color: var(--p-high); border-color: var(--warn-line); }
+  .due svg { width: 14px; height: 14px; }
+  .due.is-overdue { color: var(--signal); background: var(--error-bg); border-radius: var(--radius-chip); padding: 2px var(--space-2); margin-left: calc(-1 * var(--space-2)); }
+  .due.is-soon { color: var(--warn-ink); background: var(--warn-bg); border-radius: var(--radius-chip); padding: 2px var(--space-2); margin-left: calc(-1 * var(--space-2)); }
   .due.is-done { color: var(--ok); }
-  .chips { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-2); margin-bottom: var(--space-3); }
 
   .card-foot {
     display: flex; align-items: center; justify-content: space-between; gap: var(--space-2);
-    margin: 0 calc(-1 * var(--space-3)) 0 calc(-1 * var(--space-4));
-    padding: var(--space-2) var(--space-3) var(--space-2) var(--space-4);
-    border-top: 1px solid var(--line-2);
+    margin: 0 calc(-1 * var(--space-3));
+    padding: var(--space-2) var(--space-3);
+    border-top: 1px solid var(--rule-2);
   }
-  .assignee { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 0; font-size: 12px; color: var(--ink-2); font-weight: 500; }
+  .assignee { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 0; font-size: 12.5px; color: var(--ink-2); }
   .assignee-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .avatar {
     --av: var(--av-0);
     width: 24px; height: 24px; border-radius: 50%; flex: none;
     display: inline-grid; place-items: center;
-    font-size: 10px; font-weight: 700; letter-spacing: .02em;
-    color: var(--av); background: color-mix(in srgb, var(--av) 14%, var(--surface));
-    border: 1px solid color-mix(in srgb, var(--av) 30%, var(--surface));
+    font-size: 10px; font-weight: 700; color: var(--av); background: var(--av-bg);
+    box-shadow: inset 0 0 0 1.5px var(--av);
   }
   .av-1 { --av: var(--av-1); } .av-2 { --av: var(--av-2); } .av-3 { --av: var(--av-3); }
   .av-4 { --av: var(--av-4); } .av-5 { --av: var(--av-5); }
-
-  .move-select {
-    width: auto; height: 26px; padding: 0 var(--space-2); font-size: 12px;
-    color: var(--blue-700); font-weight: 600; cursor: pointer;
-    border-color: transparent; background: var(--blue-50); box-shadow: none;
-  }
-  .move-select:hover { border-color: var(--blue-200); }
+  .move-select { width: auto; flex: none; height: 28px; padding: 0 var(--space-2); font-size: 12.5px; font-weight: 600; color: var(--lane-in-progress); cursor: pointer; }
   .confirm-row {
     display: flex; align-items: center; gap: var(--space-2);
-    margin: 0 calc(-1 * var(--space-3)) 0 calc(-1 * var(--space-4));
-    padding: var(--space-2) var(--space-3) var(--space-2) var(--space-4);
-    background: var(--p-critical-bg); border-top: 1px solid var(--danger-line);
-    border-radius: 0 0 var(--radius) var(--radius);
-    font-size: 12px; font-weight: 600; color: var(--p-critical);
+    margin: 0 calc(-1 * var(--space-3));
+    padding: var(--space-2) var(--space-3);
+    background: var(--error-bg); border-top: 1px solid var(--error-rule);
+    border-radius: 0 0 var(--radius-card) var(--radius-card);
+    font-size: 12.5px; font-weight: 700; color: var(--signal);
   }
   .confirm-row span { margin-right: auto; }
 
   /* ==========================================================
-     9. Add Task dialog
+     9. Add task dialog
      ========================================================== */
   dialog {
-    border: 0; border-radius: var(--radius-lg); padding: 0;
+    border: 0; border-radius: var(--radius-sheet); padding: 0;
     width: min(620px, calc(100vw - 32px));
-    box-shadow: var(--shadow-lg);
-    color: var(--ink);
+    box-shadow: var(--shadow-lg); color: var(--ink);
   }
-  dialog::backdrop { background: var(--backdrop); backdrop-filter: blur(2px); }
+  dialog[open] { animation: dialog-in .18s ease-out; }
+  @keyframes dialog-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  dialog::backdrop { background: var(--backdrop); }
   .dialog-header {
     display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4);
-    padding: var(--space-5) var(--space-5) var(--space-4);
-    border-bottom: 1px solid var(--line);
+    padding: var(--space-5) var(--space-5) var(--space-3);
   }
-  .dialog-header h2 { margin: 0; font-size: 18px; font-weight: 700; }
+  .dialog-header h2 { margin: 0; font-family: var(--serif); font-size: 26px; font-weight: 600; }
   .dialog-sub { margin: var(--space-1) 0 0; font-size: 13px; color: var(--ink-3); }
-  .task-form { padding: var(--space-5) var(--space-5) 0; }
+  .task-form { padding: var(--space-2) var(--space-5) 0; }
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2) var(--space-4); }
   .form-grid .full { grid-column: 1 / -1; }
   .form-field label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; color: var(--ink-2); }
-  .req { color: var(--p-critical); }
-  .hint { font-size: 12px; color: var(--ink-4); font-weight: 400; }
-  .field-error { color: var(--error); font-size: 12px; margin: var(--space-1) 0 0; min-height: 1.25em; }
+  .req { color: var(--signal); }
+  .hint { font-size: 12px; color: var(--ink-3); font-weight: 400; }
+  .field-error { color: var(--error); font-size: 12.5px; margin: var(--space-1) 0 0; min-height: 1.25em; }
   .form-actions {
     display: flex; justify-content: flex-end; gap: var(--space-2);
     margin: var(--space-3) calc(-1 * var(--space-5)) 0;
     padding: var(--space-4) var(--space-5);
-    background: var(--surface-2); border-top: 1px solid var(--line);
-    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    border-top: 1px solid var(--rule-2); background: var(--wash);
+    border-radius: 0 0 var(--radius-sheet) var(--radius-sheet);
   }
 
   /* ==========================================================
@@ -533,150 +479,136 @@
     z-index: 100; max-width: calc(100vw - 32px);
   }
   .toast {
-    --toast-color: var(--ok);
-    background: var(--navy-950); color: var(--on-dark);
-    border: 1px solid var(--navy-800);
-    border-left: 4px solid var(--toast-color);
-    border-radius: var(--radius);
+    --toast-key: var(--lane-done);
+    background: var(--harbour); color: var(--on-dark);
+    border-left: 6px solid var(--toast-key);
+    border-radius: var(--radius-card);
     padding: var(--space-3) var(--space-4);
     box-shadow: var(--shadow-lg);
-    font-size: 13px; font-weight: 500; min-width: 260px;
-    animation: toast-in .2s ease-out;
+    font-weight: 500; min-width: 260px;
   }
-  .toast.toast-warn  { --toast-color: var(--warn-bright); }
-  .toast.toast-error { --toast-color: var(--alert-bright); }
-  @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .toast.toast-warn  { --toast-key: var(--lane-blocked); }
+  .toast.toast-error { --toast-key: var(--signal); }
 
   /* ==========================================================
      11. Responsive & motion preferences
      ========================================================== */
-  @media (max-width: 1200px) {
+  @media (max-width: 1180px) {
     .board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
   @media (max-width: 767px) {
     .container { padding: 0 var(--space-4); }
-    .brand-divider, .brand-product { display: none; }
-    .page-head { padding: var(--space-5) 0 var(--space-7); }
-    .page-title { font-size: 22px; }
-    .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .kpi dd { font-size: 22px; }
-    .filters-title { display: none; }
+    .product, .env-badge { display: none; }
+    .overview { padding: var(--space-4); }
+    .page-title { font-size: 32px; }
+    .summary { gap: var(--space-2) var(--space-4); }
+    .summary dd { font-size: 24px; }
+    .summary .k-total { padding-right: var(--space-4); }
     .board { grid-template-columns: 1fr; }
     .column { min-height: 0; }
+    .gantt { --label-w: 200px; min-width: 720px; }
+    .g-task { padding-left: var(--space-3); }
+    .view-toggle { margin-left: 0; }
   }
   @media (max-width: 520px) {
     .form-grid { grid-template-columns: 1fr; }
-    .env-badge { display: none; }
     .toasts { right: var(--space-4); bottom: var(--space-4); }
+    .filters .field { flex: 1 1 100%; }
   }
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: .01ms; transition-duration: .01ms; }
+    dialog[open], .card.is-highlight { animation: none; }
   }
 </style>
 </head>
 <body>
 
 <!-- ============================================================
-     App bar: neutral text wordmark, environment badge, primary action
+     Top bar: neutral text wordmark and the primary action
      ============================================================ -->
-<header class="appbar">
+<header class="topbar">
   <div class="container">
-    <div class="brand">
-      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-        <rect width="32" height="32" rx="7" fill="#1f5fd1"/>
-        <rect x="7" y="8" width="5" height="16" rx="1.5" fill="#fff"/>
-        <rect x="13.5" y="8" width="5" height="10" rx="1.5" fill="#fff" opacity=".75"/>
-        <rect x="20" y="8" width="5" height="6" rx="1.5" fill="#fff" opacity=".5"/>
-      </svg>
-      <p class="wordmark">UOB IT PMO</p>
-      <span class="brand-divider" aria-hidden="true"></span>
-      <span class="brand-product">Delivery Board</span>
-      <span class="env-badge" title="Internal demo / training environment">Training</span>
-    </div>
-    <div class="appbar-actions">
-      <span id="sending-indicator" class="sending-indicator" hidden><span class="spinner" aria-hidden="true"></span>Sending notification…</span>
-      <button type="button" id="open-add" class="btn btn-accent">
-        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
-        Add Task
+    <p class="wordmark">UOB IT PMO</p>
+    <span class="product">Project board</span>
+    <span class="env-badge" title="Internal demo / training environment">Training copy</span>
+    <div class="topbar-actions">
+      <span id="sending-indicator" class="sending-indicator" hidden>Sending email notification…</span>
+      <button type="button" id="open-add" class="btn btn-add">
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        Add task
       </button>
     </div>
   </div>
 </header>
 
-<!-- ============================================================
-     Portfolio header: title, live KPI summary, status distribution
-     ============================================================ -->
-<section class="page-head" aria-labelledby="page-title">
-  <div class="container">
-    <p class="eyebrow">IT Project Management Office</p>
-    <div class="title-row">
-      <div>
-        <h1 class="page-title" id="page-title">Project Board</h1>
-        <p class="as-of" id="as-of">Portfolio snapshot</p>
-      </div>
-      <p class="demo-note">
-        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 7v4M8 4.8v.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        Internal demo / training tool. Data is held in memory only, and refreshing the page resets the board to the demo tasks.
-      </p>
-    </div>
-    <dl class="summary" aria-label="Board summary">
-      <div class="kpi k-total"><dt>Total tasks</dt><dd id="sum-total">0</dd></div>
-      <div class="kpi k-backlog"><dt>Backlog</dt><dd id="sum-backlog">0</dd></div>
-      <div class="kpi k-in-progress"><dt>In Progress</dt><dd id="sum-in-progress">0</dd></div>
-      <div class="kpi k-blocked"><dt>Blocked</dt><dd id="sum-blocked">0</dd></div>
-      <div class="kpi k-done"><dt>Done</dt><dd id="sum-done">0</dd></div>
-      <div class="kpi k-overdue"><dt>⚠ Overdue</dt><dd id="sum-overdue">0</dd></div>
-    </dl>
-    <div class="dist" id="dist" aria-label="Status distribution"></div>
-  </div>
-</section>
-
 <main>
   <div class="container">
     <!-- ============================================================
-         Filter bar (client-side filtering over state.tasks)
+         Overview: title, status sentence, live summary, timeline
          ============================================================ -->
+    <section class="overview" aria-labelledby="page-title">
+      <div class="overview-head">
+        <div>
+          <h1 class="page-title" id="page-title">Delivery board</h1>
+          <p class="as-of" id="as-of"></p>
+          <p class="board-status" id="board-status"></p>
+          <p class="demo-note">Internal demo / training tool. Data is held in memory only, and refreshing the page resets the board to the demo tasks.</p>
+        </div>
+        <dl class="summary" aria-label="Board summary">
+          <div class="k-total"><dt>Tasks</dt><dd id="sum-total">0</dd></div>
+          <div class="k-backlog"><dt>Backlog</dt><dd id="sum-backlog">0</dd></div>
+          <div class="k-in-progress"><dt>In Progress</dt><dd id="sum-in-progress">0</dd></div>
+          <div class="k-blocked"><dt>Blocked</dt><dd id="sum-blocked">0</dd></div>
+          <div class="k-done"><dt>Done</dt><dd id="sum-done">0</dd></div>
+          <div class="k-overdue"><dt>⚠ Overdue</dt><dd id="sum-overdue">0</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Filter bar (client-side filtering over state.tasks) -->
     <section class="filters" aria-label="Filters">
-      <p class="filters-title">
-        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 3.5h12M4.5 8h7M7 12.5h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
-        Filter
-      </p>
       <div class="field">
         <label for="filter-project">Project</label>
         <select id="filter-project"><option value="">All projects</option></select>
       </div>
       <div class="field">
         <label for="filter-assignee">Assignee contains</label>
-        <div class="search-wrap">
-          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <input type="search" id="filter-assignee" placeholder="e.g. Tan" autocomplete="off">
-        </div>
+        <input type="search" id="filter-assignee" placeholder="e.g. Tan" autocomplete="off">
       </div>
       <div class="field">
         <label for="filter-priority">Priority</label>
         <select id="filter-priority"><option value="">All priorities</option></select>
       </div>
-      <button type="button" id="clear-filters" class="btn btn-ghost">Clear filters</button>
+      <button type="button" id="clear-filters" class="btn btn-quiet">Clear filters</button>
+      <div class="view-toggle" role="group" aria-label="View">
+        <button type="button" class="seg" data-view="timeline" aria-pressed="true">
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 4h7M5 8h8M3 12h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Timeline
+        </button>
+        <button type="button" class="seg" data-view="board" aria-pressed="false">
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="2" y="2.5" width="3.2" height="11" rx="1" fill="currentColor"/><rect x="6.4" y="2.5" width="3.2" height="7" rx="1" fill="currentColor"/><rect x="10.8" y="2.5" width="3.2" height="9" rx="1" fill="currentColor"/></svg>
+          Board
+        </button>
+      </div>
     </section>
 
-    <!-- ============================================================
-         Kanban board (columns are rendered from STATUSES in JS)
-         ============================================================ -->
-    <section id="board" class="board" aria-label="Kanban board"></section>
+    <!-- Timeline view: one Gantt row per task, rendered from state -->
+    <section id="timeline-view" class="gantt-view" aria-label="Timeline of tasks by due date"></section>
+
+    <!-- Kanban board (lanes are rendered from STATUSES in JS) -->
+    <section id="board" class="board" aria-label="Kanban board" hidden></section>
   </div>
 </main>
 
 <!-- ============================================================
-     Add Task dialog
+     Add task dialog
      ============================================================ -->
 <dialog id="add-dialog" aria-labelledby="add-dialog-title">
   <div class="dialog-header">
     <div>
-      <h2 id="add-dialog-title">Add Task</h2>
-      <p class="dialog-sub">Log a new work item on the delivery board. Fields marked <span class="req">*</span> are required.</p>
+      <h2 id="add-dialog-title">Add task</h2>
+      <p class="dialog-sub">The task goes into the lane you choose under Status. Fields marked <span class="req">*</span> are required.</p>
     </div>
-    <button type="button" class="icon-btn" id="close-add" aria-label="Close Add Task dialog">
+    <button type="button" class="icon-btn" id="close-add" aria-label="Close Add task dialog">
       <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
     </button>
   </div>
@@ -725,7 +657,7 @@
     </div>
     <div class="form-actions">
       <button type="button" id="cancel-add" class="btn">Cancel</button>
-      <button type="submit" id="submit-task" class="btn btn-primary">Add Task</button>
+      <button type="submit" id="submit-task" class="btn btn-primary">Add task</button>
     </div>
   </form>
 </dialog>
@@ -773,6 +705,8 @@ let nextId = 1;
 
 // UI-only state that affects rendering (not task data)
 const ui = {
+  view: "timeline", // "timeline" or "board"
+  highlight: null, // id of the card to flash after picking it on the timeline
   pendingDelete: null, // id of the card showing the "Delete? Yes / No" toggle
   focusAfterRender: null, // CSS selector to focus after the next renderBoard()
   inFlight: 0, // number of FormSubmit requests in progress
@@ -828,13 +762,22 @@ function daysFromToday(iso) {
   return Math.round((new Date(y, m - 1, d) - new Date(ty, tm - 1, td)) / 86400000);
 }
 
+function plural(n, word) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+
+function shortDate(iso) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString(undefined, { day: "numeric", month: "short" });
+}
+
 function dueLabel(task) {
-  if (task.status === "Done") return { text: formatDate(task.dueDate), cls: "is-done" };
+  if (task.status === "Done") return { text: "Due " + formatDate(task.dueDate), cls: "is-done" };
   const days = daysFromToday(task.dueDate);
-  if (days < 0) return { text: `⚠ Overdue · ${-days}d`, cls: "is-overdue" };
+  if (days < 0) return { text: `⚠ ${plural(-days, "day")} overdue`, cls: "is-overdue" };
   if (days === 0) return { text: "Due today", cls: "is-soon" };
-  if (days <= 7) return { text: `Due in ${days}d`, cls: "is-soon" };
-  return { text: formatDate(task.dueDate), cls: "" };
+  if (days <= 7) return { text: `Due in ${plural(days, "day")}`, cls: "is-soon" };
+  return { text: "Due " + formatDate(task.dueDate), cls: "" };
 }
 
 function initials(name) {
@@ -914,12 +857,16 @@ function renderCard(task) {
     : "";
 
   const due = dueLabel(task);
+  const level = PRIORITIES.length - PRIORITIES.indexOf(task.priority); // Critical = 4 … Low = 1
 
   return `
-    <article class="card prio-${prio}${task.status === "Done" ? " is-done" : ""}" draggable="true" data-id="${id}" aria-label="${id}: ${escapeHtml(task.title)}">
-      <div class="card-top">
+    <article class="card prio-${prio}${task.status === "Done" ? " is-done" : ""}${ui.highlight === task.id ? " is-highlight" : ""}" draggable="true" data-id="${id}" aria-label="${id}: ${escapeHtml(task.title)}">
+      <div class="card-head">
+        <span class="prio" title="Priority">
+          <span class="prio-meter lvl-${level}" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          ${escapeHtml(task.priority)}<span class="visually-hidden"> priority</span>
+        </span>
         <span class="card-id">${id}</span>
-        <span class="pill" title="Priority">${escapeHtml(task.priority)}</span>
         <button type="button" class="icon-btn" data-action="delete" aria-label="Delete task ${id}">
           <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.6 8.5h5.8l.6-8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
         </button>
@@ -928,14 +875,12 @@ function renderCard(task) {
       ${task.description ? `<p class="card-desc">${escapeHtml(task.description)}</p>` : ""}
       <dl class="card-meta">
         <dt>Project</dt><dd>${escapeHtml(task.project)}</dd>
+        <dt>Category</dt><dd>${escapeHtml(task.category)}</dd>
       </dl>
-      <div class="chips">
-        <span class="due ${due.cls}" title="Due ${escapeHtml(formatDate(task.dueDate))}${overdue ? " (overdue)" : ""}">
-          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-          <time datetime="${escapeHtml(task.dueDate)}">${escapeHtml(due.text)}</time>
-        </span>
-        <span class="tag">${escapeHtml(task.category)}</span>
-      </div>
+      <p class="due ${due.cls}" title="Due ${escapeHtml(formatDate(task.dueDate))}${overdue ? " (overdue)" : ""}">
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <time datetime="${escapeHtml(task.dueDate)}">${escapeHtml(due.text)}</time>
+      </p>
       <div class="card-foot">
         <span class="assignee" title="Assignee: ${escapeHtml(task.assignee)}">
           <span class="avatar av-${avatarIndex(task.assignee)}" aria-hidden="true">${escapeHtml(initials(task.assignee))}</span>
@@ -943,12 +888,105 @@ function renderCard(task) {
           <span class="assignee-name">${escapeHtml(task.assignee)}</span>
         </span>
         <select class="move-select" data-action="move" aria-label="Move task ${id} to another column">
-          <option value="">Move ▸</option>
+          <option value="">Move to…</option>
           ${moveOptions}
         </select>
       </div>
       ${deleteControl}
     </article>`;
+}
+
+// Gantt timeline. Tasks only have a due date, so bars show the time left:
+// open tasks run from today to the due date, overdue tasks show the days
+// past due in red, and done tasks are a diamond on their due date.
+function renderTimeline() {
+  const view = document.getElementById("timeline-view");
+  const tasks = applyFilters(state.tasks);
+  if (!tasks.length) {
+    view.innerHTML = `<p class="gantt-empty">No tasks match the filters. Clear the filters to see the whole timeline.</p>`;
+    return;
+  }
+
+  const offsets = tasks.map(t => daysFromToday(t.dueDate));
+  const start = Math.min(-7, Math.min(...offsets) - 2);
+  const end = Math.max(28, Math.max(...offsets) + 5);
+  const span = end - start;
+  const pos = d => ((d - start) / span) * 100;
+  const pct = n => n.toFixed(3) + "%";
+
+  // Background grid: past zone, weekends, week lines, today
+  const grid = [`<span class="g-past" style="width:${pct(pos(0))}"></span>`];
+  const axis = [];
+  for (let d = start; d < end; d++) {
+    const date = new Date();
+    date.setDate(date.getDate() + d);
+    const dow = date.getDay();
+    if (dow === 0 || dow === 6) grid.push(`<span class="g-weekend" style="left:${pct(pos(d))};width:${pct(100 / span)}"></span>`);
+    if (dow === 1 && Math.abs(d) > 2) {
+      grid.push(`<span class="g-week" style="left:${pct(pos(d))}"></span>`);
+      axis.push(`<span class="g-axis-label" style="left:${pct(pos(d))}">${escapeHtml(shortDate(toLocalISO(date)))}</span>`);
+    }
+  }
+  grid.push(`<span class="g-today" style="left:${pct(pos(0))}"></span>`);
+  axis.push(`<span class="g-axis-label is-today" style="left:${pct(pos(0))}">Today</span>`);
+
+  const sorted = [...tasks].sort((a, b) =>
+    (a.status === "Done") - (b.status === "Done") || (a.dueDate < b.dueDate ? -1 : a.dueDate > b.dueDate ? 1 : 0));
+
+  const rows = sorted.map(t => {
+    const d = daysFromToday(t.dueDate);
+    const id = escapeHtml(t.id);
+    const st = slug(t.status);
+    const level = PRIORITIES.length - PRIORITIES.indexOf(t.priority);
+    let startX, endX, bar;
+    if (t.status === "Done") {
+      startX = endX = pos(d + 0.5);
+      bar = `<span class="g-milestone" style="left:${pct(startX)}"></span>`;
+    } else if (d < 0) {
+      startX = pos(d); endX = pos(1);
+      bar = `<span class="g-bar is-late" style="left:${pct(startX)};width:${pct(endX - startX)}"></span>`;
+    } else {
+      startX = pos(0); endX = pos(d + 1);
+      bar = `<span class="g-bar st-${st}" style="left:${pct(startX)};width:${pct(endX - startX)}"></span>`;
+    }
+    const due = dueLabel(t);
+    const before = (t.status === "Done" && startX > 13) || endX > 78; // keep labels inside the chart and off the Today line
+    const label = `<span class="g-label ${due.cls}${before ? " is-before" : ""}" style="left:${pct(before ? startX : endX)}">${escapeHtml(due.text)}</span>`;
+    return `
+      <div class="g-row prio-${slug(t.priority)}">
+        <div class="g-task">
+          <button type="button" class="g-open" data-show="${id}" title="${id}: show on the board"><span class="visually-hidden">${id}: </span>${escapeHtml(t.title)}</button>
+          <span class="g-meta">
+            <span class="g-status st-${st}">${escapeHtml(t.status)}</span>
+            <span class="prio"><span class="prio-meter lvl-${level}" aria-hidden="true"><i></i><i></i><i></i><i></i></span>${escapeHtml(t.priority)}</span>
+            <span>${escapeHtml(t.assignee)}</span>
+          </span>
+        </div>
+        <div class="g-track">${bar}${label}</div>
+      </div>`;
+  }).join("");
+
+  view.innerHTML = `
+    <div class="gantt">
+      <div class="g-legend" aria-hidden="true">
+        ${STATUSES.filter(s => s.name !== "Done").map(s => `<span><i class="g-key st-${slug(s.name)}"></i>${escapeHtml(s.name)}: today to due date</span>`).join("")}
+        <span><i class="g-key is-late"></i>Days past due</span>
+        <span><i class="g-key is-milestone"></i>Done</span>
+      </div>
+      <div class="g-head"><div class="g-head-label">Task</div><div class="g-axis">${axis.join("")}</div></div>
+      <div class="g-body">
+        <div class="g-grid" aria-hidden="true">${grid.join("")}</div>
+        ${rows}
+      </div>
+    </div>`;
+}
+
+function applyView() {
+  const timeline = ui.view === "timeline";
+  document.getElementById("timeline-view").hidden = !timeline;
+  document.getElementById("board").hidden = timeline;
+  document.querySelectorAll("[data-view]").forEach(b =>
+    b.setAttribute("aria-pressed", String(b.dataset.view === ui.view)));
 }
 
 function renderSummary() {
@@ -958,18 +996,22 @@ function renderSummary() {
   STATUSES.forEach(s => {
     document.getElementById("sum-" + slug(s.name)).textContent = counts[s.name];
   });
-  document.getElementById("sum-overdue").textContent = state.tasks.filter(isOverdue).length;
+  const overdue = state.tasks.filter(isOverdue).length;
+  document.getElementById("sum-overdue").textContent = overdue;
 
-  // Status distribution bar (share of all tasks per column)
-  const total = state.tasks.length;
-  const pct = n => (total ? Math.round((n / total) * 100) : 0);
-  document.getElementById("dist").innerHTML = `
-    <div class="dist-bar" aria-hidden="true">
-      ${STATUSES.map(s => `<span class="dist-seg seg-${slug(s.name)}" style="flex-grow:${counts[s.name]}"></span>`).join("")}
-    </div>
-    <ul class="dist-legend">
-      ${STATUSES.map(s => `<li><span class="swatch seg-${slug(s.name)}" aria-hidden="true"></span>${escapeHtml(s.name)} <b>${pct(counts[s.name])}%</b></li>`).join("")}
-    </ul>`;
+  // One plain sentence that says what needs attention
+  const dueSoon = state.tasks.filter(t => {
+    const d = daysFromToday(t.dueDate);
+    return t.status !== "Done" && d >= 0 && d <= 7;
+  }).length;
+  const parts = [];
+  if (overdue) parts.push(`${overdue} overdue`);
+  if (dueSoon) parts.push(`${dueSoon} due in the next 7 days`);
+  if (counts["Blocked"]) parts.push(`${counts["Blocked"]} blocked`);
+  document.getElementById("board-status").textContent =
+    parts.length ? parts.join(", ") + "." : "Nothing is overdue, due this week or blocked.";
+
+  renderTimeline();
 }
 
 function renderBoard() {
@@ -986,18 +1028,21 @@ function renderBoard() {
       <section class="column st-${slug(s.name)}" data-status="${escapeHtml(s.name)}" aria-labelledby="${headingId}">
         <div class="column-header">
           <div>
-            <h2 id="${headingId}"><span class="status-dot" aria-hidden="true"></span>${escapeHtml(s.name)}</h2>
+            <h2 id="${headingId}">${escapeHtml(s.name)}</h2>
             <p class="column-hint">${escapeHtml(s.hint)}</p>
           </div>
           <span class="count-badge" aria-label="${escapeHtml(countText)} tasks">${escapeHtml(countText)}</span>
         </div>
         <div class="card-list">
-          ${shown.length ? shown.map(renderCard).join("") : `<p class="empty">No tasks</p>`}
+          ${shown.length ? shown.map(renderCard).join("") : `<p class="empty">No tasks here. Drag a card in, or use Add task.</p>`}
         </div>
       </section>`;
   }).join("");
 
   renderSummary();
+
+  applyView();
+  ui.highlight = null;
 
   // Restore keyboard focus after a re-render (move / delete toggle)
   if (ui.focusAfterRender) {
@@ -1084,7 +1129,7 @@ function setSending(isSending) {
   const busy = ui.inFlight > 0;
   const btn = document.getElementById("submit-task");
   btn.disabled = busy;
-  btn.textContent = busy ? "Sending…" : "Add Task";
+  btn.textContent = busy ? "Sending…" : "Add task";
   document.getElementById("sending-indicator").hidden = !busy;
 }
 
@@ -1261,6 +1306,24 @@ function wireCardControls(board) {
 /* ============================================================
    FILTER BAR
    ============================================================ */
+function wireViews() {
+  document.querySelectorAll("[data-view]").forEach(btn =>
+    btn.addEventListener("click", () => { ui.view = btn.dataset.view; applyView(); }));
+
+  // Picking a task on the timeline opens the board on that card
+  document.getElementById("timeline-view").addEventListener("click", e => {
+    const btn = e.target.closest("[data-show]");
+    if (!btn) return;
+    const sel = `.card[data-id="${CSS.escape(btn.dataset.show)}"]`;
+    ui.view = "board";
+    ui.highlight = btn.dataset.show;
+    ui.focusAfterRender = `${sel} .move-select`;
+    renderBoard();
+    const card = document.querySelector(sel);
+    if (card) card.scrollIntoView({ block: "center" });
+  });
+}
+
 function wireFilters() {
   const project = document.getElementById("filter-project");
   const assignee = document.getElementById("filter-assignee");
@@ -1299,13 +1362,14 @@ function init() {
   wireDragAndDrop(board);
   wireCardControls(board);
   wireFilters();
+  wireViews();
   form.addEventListener("submit", handleSubmit);
   document.getElementById("open-add").addEventListener("click", openAddDialog);
   document.getElementById("close-add").addEventListener("click", () => dialog.close());
   document.getElementById("cancel-add").addEventListener("click", () => dialog.close());
 
-  document.getElementById("as-of").textContent = "Portfolio snapshot as of " +
-    new Date().toLocaleDateString(undefined, { weekday: "short", day: "2-digit", month: "short", year: "numeric" });
+  document.getElementById("as-of").textContent =
+    new Date().toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
 
   seedTasks();
   renderBoard();
